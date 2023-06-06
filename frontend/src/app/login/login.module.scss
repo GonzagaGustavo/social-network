@@ -23,15 +23,17 @@
 }
 
 .input {
-  padding: 5px;
-  border: none;
+  padding: 2%;
+  border-radius: 4px;
+  border: 1px solid var(--primary);
   background: transparent;
-  border-bottom: 1px solid #d4d4d4;
   font-size: medium;
   margin: 10px 0;
+  transition: 0.2s all ease-in-out;
 }
 .input:focus {
   outline: none !important;
+  box-shadow: 0 0 8px 0 var(--primary);
 }
 .login {
   width: 100%;
@@ -41,8 +43,13 @@
 }
 .form {
   display: grid;
+
+  a {
+    color: rgb(116, 116, 255);
+  }
 }
 .btnWrapper {
+  margin-top: 10px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -51,27 +58,12 @@
   width: 80px;
   height: 40px;
   border-radius: 4px;
-  background: #45578D;
+  background: #45578d;
   border: none;
+  transition: all 0.18s ease-in-out;
 }
 #btnSubmit:hover {
   cursor: pointer;
-  animation: elevate 0.2s ease-out;
-  transform: translateY(-2.5px);
+  transform: translateY(-0.5px) scale(1.02);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-}
-
-@keyframes elevate {
-  0% {
-    transform: translateY(0);
-    box-shadow: none;
-  }
-  50% {
-    transform: translateY(-1.25px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-  }
-  100% {
-    transform: translateY(-2.5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  }
 }

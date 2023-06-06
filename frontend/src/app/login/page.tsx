@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "./login.module.scss";
 import { Antonio } from "next/font/google";
 import Form from "./form";
+import Link from "next/link";
 
 const antonio = Antonio({ subsets: ["latin"] });
 
@@ -39,6 +40,7 @@ export default function LoginPage() {
               className={styles.input}
               required
             />
+            <p>Ainda não possui uma conta? <Link href="/register">Crie uma!</Link></p>
             <div className={styles.btnWrapper}>
               <button type="submit" id={styles.btnSubmit}>
                 Entrar

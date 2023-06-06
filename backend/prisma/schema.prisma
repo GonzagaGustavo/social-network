@@ -16,11 +16,11 @@ model User {
   email    String   @unique @db.VarChar(200)
   password String   @db.VarChar(100)
   username String   @unique @db.VarChar(200)
-  phone    String   @unique @db.VarChar(50)
-  bio      String   @db.VarChar(1000)
+  phone    String   @unique @default("") @db.VarChar(50)
+  bio      String   @default("") @db.VarChar(1000)
   gender   String   @db.VarChar(50)
   birthday DateTime @db.Date
-  country  String   @db.VarChar(80)
-  estate   String   @db.VarChar(100)
-  city     String   @db.VarChar(100)
+  country  String   @default("") @db.VarChar(80)
+  estate   String   @default("") @db.VarChar(100)
+  city     String   @default("") @db.VarChar(100)
 }

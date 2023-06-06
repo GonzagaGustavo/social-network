@@ -1,3 +1,7 @@
+:root {
+ --primary: #45578d;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
