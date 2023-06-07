@@ -1,5 +1,20 @@
 import * as Yup from "yup";
 
+export interface RegisterData {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  repeatPassword: string;
+  phone: string;
+  bio: string;
+  gender: string;
+  birthday: string;
+  country: string;
+  estate: string;
+  city: string;
+}
+
 const validation = Yup.object({
   name: Yup.string()
     .required("Por favor insira seu nome.")
@@ -13,25 +28,22 @@ const validation = Yup.object({
   password: Yup.string().required("Crie uma senha."),
   repeatPassword: Yup.string()
     .required("Crie uma senha.")
-    .oneOf([Yup.ref("password")], "As senhas nãosão iguais!"),
+    .oneOf([Yup.ref("password")], "As senhas não são iguais!"),
   phone: Yup.string(),
   bio: Yup.string().max(
     1000,
     "A sua biografia não pode ser maior que 1000 caracteres."
   ),
   gender: Yup.string()
-    .oneOf(["male", "female", "prefer not to say"])
+    .oneOf(["male", "female", "prefer not to say"], "Genero inválido!")
     .required("Selecione uma das opções para genero"),
-  birthday: Yup.string()
-    .trim()
-    .matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)
-    .required("Prencha sua data de nascimento."),
+  birthday: Yup.date().required("Prencha sua data de nascimento."),
   country: Yup.string(),
   estate: Yup.string(),
   city: Yup.string(),
 });
 
-export const initialValues = {
+export const initialValues: RegisterData = {
   name: "",
   username: "",
   email: "",

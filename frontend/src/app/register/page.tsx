@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { Antonio } from "next/font/google";
 import styles from "./register.module.scss";
+import Form from "./form";
 
 const antonio = Antonio({ subsets: ["latin"] });
 
@@ -20,7 +21,7 @@ export default function RegisterPage() {
       </div>
 
       <div className={styles.container}>
-
+        <Form />
       </div>
     </div>
   );

@@ -1,0 +1,55 @@
+.main {
+}
+
+.inputWrapper {
+  div {
+    color: red;
+    font-size: small;
+  }
+}
+
+.input {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid var(--primary);
+  background: transparent;
+  font-size: medium;
+  margin: 10px 0;
+  transition: 0.2s all ease-in-out;
+}
+.input:focus {
+  outline: none !important;
+  box-shadow: 0 0 8px 0 var(--primary);
+}
+
+.textArea {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid var(--primary);
+  background: transparent;
+  font-size: medium;
+  margin: 10px 0;
+  transition: 0.2s all ease-in-out;
+  resize: none;
+}
+.textArea:focus {
+  outline: none !important;
+  box-shadow: 0 0 8px 0 var(--primary);
+}
+.select {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid var(--primary);
+  background: transparent;
+  font-size: medium;
+  margin: 10px 0;
+  transition: 0.2s all ease-in-out;
+
+  option {
+    color: black;
+  }
+}
+.select:focus {
+  outline: none !important;
+  box-shadow: 0 0 8px 0 var(--primary);
+}
