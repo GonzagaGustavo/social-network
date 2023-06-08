@@ -35,7 +35,7 @@ UserRoutes.post("/", async (req, res) => {
   };
 
   try {
-    await prisma.user.create({ data: user });
+    const saved = await prisma.user.create({ data: user });
     await prisma.$disconnect();
 
     res.json({ success: true });

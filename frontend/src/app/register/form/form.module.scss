@@ -1,10 +1,75 @@
 .main {
+  display: grid;
+  justify-content: center;
+  grid-template-areas: "Names" "Email" "Passwords" "Optionals" "Bio" "Submit";
+  grid-template-columns: 90%;
+  grid-template-rows: 105px 105px 105px 105px 200px 105px;
+}
+.firstGrid {
+  grid-area: Names;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  .inputWrapper {
+    width: 40%;
+  }
+}
+
+.secondGrid {
+  grid-area: Email;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .inputWrapper {
+    width: 90%;
+  }
+}
+
+.thirdGrid {
+  grid-area: Passwords;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  .inputWrapper {
+    width: 40%;
+  }
+}
+
+.fourthGrid {
+  grid-area: Optionals;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  .inputWrapper {
+    width: 27%;
+  }
+}
+
+.fifthGrid {
+  grid-area: Bio;
+  display: flex;
+  justify-content: center;
+
+  .inputWrapper {
+    width: 90%;
+    height: 100%;
+  }
 }
 
 .inputWrapper {
+  grid-template-rows: 20px 60px 20px;
+  position: relative;
+  display: grid;
+
   div {
     color: red;
     font-size: small;
+    position: absolute;
+    bottom: 0;
   }
 }
 
@@ -23,6 +88,7 @@
 }
 
 .textArea {
+  height: 150px;
   padding: 10px;
   border-radius: 4px;
   border: 1px solid var(--primary);
@@ -51,5 +117,26 @@
 }
 .select:focus {
   outline: none !important;
+  box-shadow: 0 0 8px 0 var(--primary);
+}
+
+.buttonWrapper {
+  grid-area: Submit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.button {
+  width: 90%;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  background-color: var(--primary);
+  border: none;
+  transition: all 0.18s ease-in-out;
+}
+.button:hover {
+  cursor: pointer;
+  transform: translateY(-0.5px) scale(1.02);
   box-shadow: 0 0 8px 0 var(--primary);
 }

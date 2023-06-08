@@ -10,6 +10,7 @@ import {
 } from "formik";
 import validation, { RegisterData, initialValues } from "./validation";
 import styles from "./form.module.scss";
+import Input from "./input";
 
 export default function Form() {
   const onSubmit = (values: RegisterData, e: FormikHelpers<RegisterData>) => {
@@ -26,67 +27,63 @@ export default function Form() {
     >
       {({ isSubmitting }) => (
         <FormikForm className={styles.main}>
-          <div className={styles.inputWrapper}>
-            <Field className={styles.input} type="text" name="name" />
-            <ErrorMessage name="name" component="div" />
+          <div className={styles.firstGrid}>
+            <Input name="name" label="Nome" />
+
+            <Input name="username" label="Username" />
           </div>
 
-          <div className={styles.inputWrapper}>
-            <Field className={styles.input} type="text" name="username" />
-            <ErrorMessage name="username" component="div" />
+          <div className={styles.secondGrid}>
+            <Input name="email" label="Email" />
           </div>
 
-          <div className={styles.inputWrapper}>
-            <Field className={styles.input} type="email" name="email" />
-            <ErrorMessage name="email" component="div" />
-          </div>
+          <div className={styles.thirdGrid}>
+            <Input name="password" type="password" label="Crie uma senha" />
 
-          <div className={styles.inputWrapper}>
-            <Field className={styles.input} type="password" name="password" />
-            <ErrorMessage name="password" component="div" />
-          </div>
-
-          <div className={styles.inputWrapper}>
-            <Field
-              className={styles.input}
-              type="password"
+            <Input
               name="repeatPassword"
+              type="password"
+              label="Repita sua senha"
             />
-            <ErrorMessage name="repeatPassword" component="div" />
           </div>
 
-          <div className={styles.inputWrapper}>
-            <Field className={styles.input} type="text" name="phone" />
-            <ErrorMessage name="phone" component="div" />
+          <div className={styles.fourthGrid}>
+            <div className={styles.inputWrapper}>
+              <label>Gênero</label>
+              <Field component="select" name="gender" className={styles.select}>
+                <option value="prefer not to say">Prefiro não dizer</option>
+                <option value="male">Masculino</option>
+                <option value="female">Feminino</option>
+              </Field>
+              <ErrorMessage name="gender" component="div" />
+            </div>
+
+            <Input name="birthday" type="date" label="Data de nascimento" />
+
+            <Input name="phone" label="Telefone (opcional)" />
           </div>
 
-          <div className={styles.inputWrapper}>
-            <Field
-              className={styles.textArea}
-              component="textArea"
-              name="bio"
-              rows={6}
-            />
-            <ErrorMessage component="div" name="bio" />
+          <div className={styles.fifthGrid}>
+            <div className={styles.inputWrapper}>
+              <label>Bio</label>
+              <Field
+                className={styles.textArea}
+                component="textarea"
+                name="bio"
+              />
+              <ErrorMessage component="div" name="bio" />
+            </div>
           </div>
 
-          <div className={styles.inputWrapper}>
-            <Field component="select" name="gender" className={styles.select}>
-              <option value="male">Masculino</option>
-              <option value="female">Feminino</option>
-              <option value="prefer not to say">Prefiro não dizer</option>
-            </Field>
-            <ErrorMessage name="gender" component="div" />
+          <div className={styles.buttonWrapper}>
+            <button
+              type="submit"
+              className={styles.button}
+              disabled={isSubmitting}
+            >
+              Registrar-se
+            </button>
           </div>
-
-          <div className={styles.inputWrapper}>
-            <Field className={styles.input} type="date" name="birthday" />
-            <ErrorMessage name="birthday" component="div" />
-          </div>
-
-          <button type="submit" disabled={isSubmitting}>
-            Submit
-          </button>
         </FormikForm>
       )}
     </Formik>
