@@ -3,10 +3,12 @@ import http from "http";
 import { config } from "dotenv";
 import UserRoutes from "./routes/user";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 config();
 const app = express();
 const server = http.createServer(app);
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: "true" }));
 

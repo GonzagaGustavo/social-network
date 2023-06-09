@@ -11,6 +11,7 @@ import {
 import validation, { RegisterData, initialValues } from "./validation";
 import styles from "./form.module.scss";
 import Input from "./input";
+import InputUsername from "./inputUsername";
 
 export default function Form() {
   const onSubmit = (values: RegisterData, e: FormikHelpers<RegisterData>) => {
@@ -30,7 +31,7 @@ export default function Form() {
           <div className={styles.firstGrid}>
             <Input name="name" label="Nome" />
 
-            <Input name="username" label="Username" />
+            <InputUsername />
           </div>
 
           <div className={styles.secondGrid}>

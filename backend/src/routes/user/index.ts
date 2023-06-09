@@ -89,4 +89,36 @@ UserRoutes.get("/", async (req, res) => {
   }
 });
 
+UserRoutes.get("/verify/username/:username", async (req, res) => {
+  const unique = await prisma.user.findUnique({
+    where: {
+      username: req.params.username,
+    },
+  });
+
+  if (!unique) {
+    res.json({ exists: false });
+    res.end();
+  } else {
+    res.json({ exists: true });
+    res.end();
+  }
+});
+
+UserRoutes.get("/verify/email/:email", async (req, res) => {
+  const unique = await prisma.user.findUnique({
+    where: {
+      email: req.params.email,
+    },
+  });
+
+  if (!unique) {
+    res.json({ exists: false });
+    res.end();
+  } else {
+    res.json({ exists: true });
+    res.end();
+  }
+});
+
 export default UserRoutes;
