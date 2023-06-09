@@ -11,16 +11,26 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement()) @db.Int()
-  name     String   @db.VarChar(150)
-  email    String   @unique @db.VarChar(200)
-  password String   @db.VarChar(100)
-  username String   @unique @db.VarChar(200)
-  phone    String   @unique @default("") @db.VarChar(50)
-  bio      String   @default("") @db.VarChar(1000)
-  gender   String   @db.VarChar(50)
-  birthday DateTime @db.Date
-  country  String   @default("") @db.VarChar(80)
-  estate   String   @default("") @db.VarChar(100)
-  city     String   @default("") @db.VarChar(100)
+  id            Int           @id @default(autoincrement()) @db.Int()
+  name          String        @db.VarChar(150)
+  email         String        @unique @db.VarChar(200)
+  password      String        @db.VarChar(100)
+  username      String        @unique @db.VarChar(200)
+  phone         String        @unique @default("") @db.VarChar(50)
+  bio           String        @default("") @db.VarChar(1000)
+  gender        String        @db.VarChar(50)
+  birthday      DateTime      @db.Date
+  country       String        @default("") @db.VarChar(80)
+  estate        String        @default("") @db.VarChar(100)
+  city          String        @default("") @db.VarChar(100)
+  refresh_token RefreshToken?
+}
+
+model RefreshToken {
+  id        String @id @default(uuid())
+  expiresIn Int
+  user      User   @relation(fields: [userId], references: [id])
+  userId    Int    @unique
+
+  @@map("refresh_token")
 }

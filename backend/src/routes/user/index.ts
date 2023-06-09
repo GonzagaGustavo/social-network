@@ -1,6 +1,11 @@
 import { Router } from "express";
 import prisma from "../../db";
-import { hashSync } from "bcrypt";
+import { hashSync, compareSync } from "bcrypt";
+import AuthGuard, {
+  UserPlayload,
+  generateToken,
+  generateTokenFromRefreshToken,
+} from "../../utils/jwt";
 
 interface User {
   id?: number;
@@ -36,12 +41,20 @@ UserRoutes.post("/", async (req, res) => {
 
   try {
     const saved = await prisma.user.create({ data: user });
-    await prisma.$disconnect();
 
-    res.json({ success: true });
+    const playload: UserPlayload = {
+      id: saved.id,
+      email: saved.email,
+    };
+
+    const { refreshToken, token } = await generateToken(playload);
+
+    res.json({ success: true, token, refreshToken });
+    res.end();
   } catch (err) {
     console.error(err);
     res.json({ success: false, err: err });
+    res.end();
   }
 });
 
@@ -61,7 +74,7 @@ UserRoutes.get("/", async (req, res) => {
           phone: false,
           city: false,
           estate: false,
-          email: true,
+          email: false,
           bio: true,
           birthday: true,
           gender: true,
@@ -87,6 +100,60 @@ UserRoutes.get("/", async (req, res) => {
     res.status(404).send("parameter id or username not found");
     res.end();
   }
+});
+
+UserRoutes.get("/protected", AuthGuard, (req, res) => {
+  res.json("Parabéns");
+});
+
+UserRoutes.post("/login", async (req, res) => {
+  const login = {
+    email: req.body.email,
+    password: req.body.passowrd,
+  };
+
+  const user = await prisma.user.findUnique({
+    where: {
+      email: login.email,
+    },
+  });
+
+  if (!user) {
+    res
+      .status(201)
+      .json({ err: { email: "Não existe uma conta com este email." } });
+    return res.end();
+  }
+
+  if (compareSync(login.password, user.password)) {
+    const playload: UserPlayload = {
+      id: user.id,
+      email: user.email,
+    };
+
+    const { refreshToken, token } = await generateToken(playload);
+
+    res.json({ success: true, token, refreshToken });
+    res.end();
+  } else {
+    res.status(201).json({ err: { password: "Senha incorreta!" } });
+  }
+});
+
+UserRoutes.post("/refresh-token", async (req, res) => {
+  const { refresh_token } = req.body;
+
+  const newToken = await generateTokenFromRefreshToken(refresh_token);
+
+  if (!newToken) {
+    res.status(401).json({ message: "Invalid refresh token" });
+    return res.end();
+  }
+
+  const { refreshToken, token } = newToken;
+
+  res.json({ success: true, token, refreshToken });
+  res.end();
 });
 
 UserRoutes.get("/verify/username/:username", async (req, res) => {
