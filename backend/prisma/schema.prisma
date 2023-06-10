@@ -24,6 +24,8 @@ model User {
   estate        String        @default("") @db.VarChar(100)
   city          String        @default("") @db.VarChar(100)
   refresh_token RefreshToken?
+
+  @@map("user")
 }
 
 model RefreshToken {

@@ -2,16 +2,28 @@
 
 import React from "react";
 import styles from "../login.module.scss";
+import { signIn } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function Form({ children }: { children: React.ReactNode }) {
-  function submit(e: any) {
+  async function submit(e: any) {
     e.preventDefault();
     const login = {
       email: e.target.email.value,
       password: e.target.password.value,
     };
-
     console.log(login);
+
+    const res = await signIn("default", {
+      ...login,
+    });
+
+    console.log(res);
+    if (res?.error) {
+      return alert(res.error);
+    }
+
+    // redirect(res?.url!);
   }
 
   return (

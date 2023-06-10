@@ -109,7 +109,7 @@ UserRoutes.get("/protected", AuthGuard, (req, res) => {
 UserRoutes.post("/login", async (req, res) => {
   const login = {
     email: req.body.email,
-    password: req.body.passowrd,
+    password: req.body.password,
   };
 
   const user = await prisma.user.findUnique({

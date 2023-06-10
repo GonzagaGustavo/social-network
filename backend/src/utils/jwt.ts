@@ -12,8 +12,7 @@ export async function generateToken(playload: UserPlayload): Promise<{
   token: string;
   refreshToken: RefreshToken;
 }> {
-  const token = jwt.sign(JSON.stringify(playload), process.env.AUTH_SECRET, {
-    algorithm: "RS256",
+  const token = jwt.sign(playload, process.env.AUTH_SECRET, {
     expiresIn: Math.floor(Date.now() / 1000) + 60 * 60 * 24, // 24 hour
     subject: String(playload.id),
   });
@@ -24,6 +23,12 @@ export async function generateToken(playload: UserPlayload): Promise<{
 
 async function generateRefreshToken(userId: number): Promise<RefreshToken> {
   const expiresIn = Math.floor(Date.now() / 1000) + 60 * 60 * 24; // 24 hour
+
+  await prisma.refreshToken.deleteMany({
+    where: {
+      userId: userId,
+    },
+  });
 
   const generateRefreshToken = await prisma.refreshToken.create({
     data: {
