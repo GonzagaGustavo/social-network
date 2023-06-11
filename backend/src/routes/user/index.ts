@@ -49,7 +49,12 @@ UserRoutes.post("/", async (req, res) => {
 
     const { refreshToken, token } = await generateToken(playload);
 
-    res.json({ success: true, token, refreshToken });
+    res.json({
+      success: true,
+      token,
+      refreshToken,
+      user: { name: user.name, username: user.username, email: user.email },
+    });
     res.end();
   } catch (err) {
     console.error(err);
@@ -112,6 +117,8 @@ UserRoutes.post("/login", async (req, res) => {
     password: req.body.password,
   };
 
+  console.log(login);
+
   const user = await prisma.user.findUnique({
     where: {
       email: login.email,
@@ -133,7 +140,12 @@ UserRoutes.post("/login", async (req, res) => {
 
     const { refreshToken, token } = await generateToken(playload);
 
-    res.json({ success: true, token, refreshToken });
+    res.json({
+      success: true,
+      token,
+      refreshToken,
+      user: { name: user.name, username: user.username, email: user.email },
+    });
     res.end();
   } else {
     res.status(201).json({ err: { password: "Senha incorreta!" } });

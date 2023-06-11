@@ -12,10 +12,12 @@ export default function Form({ children }: { children: React.ReactNode }) {
       email: e.target.email.value,
       password: e.target.password.value,
     };
-    console.log(login);
 
-    const res = await signIn("default", {
-      ...login,
+    const res = await signIn("Credentials", {
+      redirect: false,
+      email: login.email,
+      password: login.password,
+      callbackUrl: window.location.origin,
     });
 
     console.log(res);
@@ -23,7 +25,7 @@ export default function Form({ children }: { children: React.ReactNode }) {
       return alert(res.error);
     }
 
-    // redirect(res?.url!);
+    redirect(res?.url!);
   }
 
   return (

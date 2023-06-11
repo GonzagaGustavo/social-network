@@ -7,6 +7,7 @@ type ResponseUser = {
   success: boolean;
   token: string;
   refreshToken: { id: string; expiresIn: number; userId: number };
+  user: { name: string; email: string; username: string };
 };
 
 async function login(credentials: {
@@ -19,12 +20,13 @@ async function login(credentials: {
 export const authOptions: AuthOptions = {
   providers: [
     Credentials({
-      name: "default",
+      name: "Credentials",
       credentials: {
         email: { label: "email", type: "email" },
         password: { label: "password", type: "password" },
       },
       async authorize(credentials, req) {
+        console.log("authorize");
         const response = await login(credentials!);
 
         if (response.status === 201) {
@@ -38,15 +40,23 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ user: modifiedUser, token }) {
+    async jwt({ user: modifiedUser, token, session }) {
       const user: ResponseUser = modifiedUser as any;
 
       if (user) {
         token.accessToken = user.token;
         token.id = user.refreshToken.userId;
+        token.user = user.user;
       }
 
-      return { token, user };
+      return token;
+    },
+    async session({ session, token }) {
+      if (token.user) {
+        session.user = token.user;
+      }
+
+      return session;
     },
   },
   jwt: {

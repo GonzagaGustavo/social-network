@@ -9,5 +9,9 @@ export default async function Home() {
   console.log(session);
   if (!session) redirect("/login");
 
-  return <main className={styles.main}></main>;
+  return (
+    <main className={styles.main}>
+      <h1>Passou pela proteção</h1>
+    </main>
+  );
 }
