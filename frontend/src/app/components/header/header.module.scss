@@ -1,0 +1,52 @@
+.main {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.content {
+  width: 90%;
+  height: 70%;
+  display: flex;
+  justify-content: space-between;
+
+  border: 1px solid #d4d4d4;
+  border-radius: 10px;
+  box-shadow: 0 4px 2.5rem rgba(0, 0, 0, 0.08);
+}
+.logoWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: fit-content;
+  padding: 10px 0;
+}
+.logo {
+  aspect-ratio: 1 / 1;
+  margin: 0 10px;
+  height: 50px;
+  width: auto;
+}
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-right: 10px;
+}
+.iconsWrapper {
+  position: relative;
+  margin: 0 5px;
+  height: fit-content;
+  width: fit-content;
+  transition: all 0.18s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+  }
+}
+.userIcon {
+  height: 25px;
+  width: 25px;
+}

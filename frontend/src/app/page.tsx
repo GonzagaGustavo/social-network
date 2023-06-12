@@ -8,9 +8,5 @@ export default async function Home() {
 
   if (!session) redirect("/login");
 
-  return (
-    <main className={styles.main}>
-      <h1>Passou pela proteção</h1>
-    </main>
-  );
+  redirect("/feed");
 }
