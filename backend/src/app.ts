@@ -12,6 +12,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: "true" }));
 
+app.use((req, res, next) => {
+  console.log(`${new Date()} - ${req.method} request for ${req.url}`);
+  next();
+});
+
 app.get("/", (req, res) => {
   res.send("Hello World");
 });

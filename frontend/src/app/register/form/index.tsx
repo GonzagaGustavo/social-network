@@ -12,10 +12,35 @@ import validation, { RegisterData, initialValues } from "./validation";
 import styles from "./form.module.scss";
 import Input from "./input";
 import InputUsername from "./inputUsername";
+import { apiPost } from "@/utils/constants";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Form() {
-  const onSubmit = (values: RegisterData, e: FormikHelpers<RegisterData>) => {
-    alert(JSON.stringify(values, null, 2));
+  const router = useRouter();
+
+  const onSubmit = async (
+    values: RegisterData,
+    e: FormikHelpers<RegisterData>
+  ) => {
+    const res = await apiPost("/user", values);
+
+    if (res.data.success) {
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: values.email,
+        password: values.password,
+        callbackUrl: "/",
+      });
+
+      if (res?.error) {
+        return alert(res.error);
+      }
+
+      router.push(res?.url!);
+    } else {
+      alert(res.data.err);
+    }
 
     e.setSubmitting(false);
   };

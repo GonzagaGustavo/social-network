@@ -42,23 +42,13 @@ UserRoutes.post("/", async (req, res) => {
   try {
     const saved = await prisma.user.create({ data: user });
 
-    const playload: UserPlayload = {
-      id: saved.id,
-      email: saved.email,
-    };
-
-    const { refreshToken, token } = await generateToken(playload);
-
     res.json({
       success: true,
-      token,
-      refreshToken,
-      user: { name: user.name, username: user.username, email: user.email },
     });
     res.end();
   } catch (err) {
     console.error(err);
-    res.json({ success: false, err: err });
+    res.status(201).json({ success: false, err: err });
     res.end();
   }
 });
@@ -116,8 +106,6 @@ UserRoutes.post("/login", async (req, res) => {
     email: req.body.email,
     password: req.body.password,
   };
-
-  console.log(login);
 
   const user = await prisma.user.findUnique({
     where: {

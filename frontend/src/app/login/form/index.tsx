@@ -3,9 +3,11 @@
 import React from "react";
 import styles from "../login.module.scss";
 import { signIn } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Form({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+
   async function submit(e: any) {
     e.preventDefault();
     const login = {
@@ -13,11 +15,11 @@ export default function Form({ children }: { children: React.ReactNode }) {
       password: e.target.password.value,
     };
 
-    const res = await signIn("Credentials", {
+    const res = await signIn("credentials", {
       redirect: false,
       email: login.email,
       password: login.password,
-      callbackUrl: window.location.origin,
+      callbackUrl: "/",
     });
 
     console.log(res);
@@ -25,7 +27,7 @@ export default function Form({ children }: { children: React.ReactNode }) {
       return alert(res.error);
     }
 
-    redirect(res?.url!);
+    router.push(res?.url!);
   }
 
   return (

@@ -6,7 +6,6 @@ import { authOptions } from "./api/auth/[...nextauth]/route";
 export default async function Home() {
   const session = await getServerSession(authOptions);
 
-  console.log(session);
   if (!session) redirect("/login");
 
   return (

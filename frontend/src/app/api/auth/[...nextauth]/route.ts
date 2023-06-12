@@ -20,6 +20,7 @@ async function login(credentials: {
 export const authOptions: AuthOptions = {
   providers: [
     Credentials({
+      id: "credentials",
       name: "Credentials",
       credentials: {
         email: { label: "email", type: "email" },
@@ -53,11 +54,19 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token }) {
       if (token.user) {
-        session.user = token.user;
+        session.user = token.user as {
+          name: string;
+          email: string;
+          username: string;
+        };
       }
 
       return session;
     },
+  },
+  pages: {
+    signIn: "/login",
+    newUser: "/register",
   },
   jwt: {
     maxAge: Math.floor(Date.now() / 1000) + 60 * 60 * 24, // 24 hour
