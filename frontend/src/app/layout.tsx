@@ -6,7 +6,7 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "SociNex",
+  title: { default: "SociNex", template: "SociNex - %s" },
   description: "A rede social criada por um brasileiro.",
 };
 
