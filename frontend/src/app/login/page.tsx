@@ -7,6 +7,10 @@ import Link from "next/link";
 
 const antonio = Antonio({ subsets: ["latin"] });
 
+export const metadata = {
+  title: "Login",
+};
+
 export default function LoginPage() {
   return (
     <div className={styles.main}>
@@ -40,7 +44,10 @@ export default function LoginPage() {
               className={styles.input}
               required
             />
-            <p>Ainda não possui uma conta? <Link href="/register">Crie uma!</Link></p>
+            <p>
+              Ainda não possui uma conta?{" "}
+              <Link href="/register">Crie uma!</Link>
+            </p>
             <div className={styles.btnWrapper}>
               <button type="submit" id={styles.btnSubmit}>
                 Entrar

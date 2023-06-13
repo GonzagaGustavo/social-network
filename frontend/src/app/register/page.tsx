@@ -6,6 +6,10 @@ import Form from "./form";
 
 const antonio = Antonio({ subsets: ["latin"] });
 
+export const metadata = {
+  title: "Register",
+};
+
 export default function RegisterPage() {
   return (
     <div className={styles.main}>

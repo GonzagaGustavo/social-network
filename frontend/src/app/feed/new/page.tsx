@@ -3,7 +3,7 @@ import { TbUpload } from "react-icons/tb";
 import styles from "./new.module.scss";
 
 export const metadata = {
-  title: "SociNex - New Post",
+  title: "New Post",
 };
 
 export default function NewPage() {
