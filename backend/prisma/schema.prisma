@@ -24,6 +24,7 @@ model User {
   estate        String        @default("") @db.VarChar(100)
   city          String        @default("") @db.VarChar(100)
   refresh_token RefreshToken?
+  Post          Post[]
 
   @@map("user")
 }
@@ -35,4 +36,19 @@ model RefreshToken {
   userId    Int    @unique
 
   @@map("refresh_token")
+}
+
+model Post {
+  id          Int      @id @default(autoincrement()) @db.Int()
+  autor       User     @relation(fields: [autor_id], references: [id])
+  autor_id    Int
+  type        String   @db.VarChar(50)
+  file        String   @db.VarChar(150)
+  title       String   @db.VarChar(200)
+  description String   @db.Text()
+  created     DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.DateTime
+  favorites   Int      @default(0) @db.Int()
+  likes       Int      @default(0) @db.Int()
+  deslikes    Int      @default(0) @db.Int()
+  shares      Int      @default(0) @db.Int()
 }
