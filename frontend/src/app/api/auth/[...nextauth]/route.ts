@@ -92,7 +92,8 @@ export const authOptions: AuthOptions = {
     async session({ session, token }) {
       if (token.err) return session;
 
-      if (token.user) {
+      if (token.user && token.accessToken) {
+        session.accessToken = token.accessToken as string;
         session.user = token.user as {
           name: string;
           email: string;

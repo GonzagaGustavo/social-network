@@ -1,11 +1,12 @@
 import { Router } from "express";
 import prisma from "../../db";
 import { hashSync, compareSync } from "bcrypt";
-import AuthGuard, {
+import {
   UserPlayload,
   generateToken,
   generateTokenFromRefreshToken,
 } from "../../utils/jwt";
+import AuthGuard from "../../middlewares/jwt";
 
 interface User {
   id?: number;

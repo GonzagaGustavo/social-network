@@ -68,29 +68,3 @@ export async function generateTokenFromRefreshToken(refreshToken: string) {
 
   return newToken;
 }
-
-export default function AuthGuard(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const authToken = req.headers.authorization;
-
-  if (!authToken) {
-    return res.status(401).json({
-      message: "Unauthorized",
-    });
-  }
-
-  const [_, token] = authToken.split(" ");
-
-  try {
-    jwt.verify(token, process.env.AUTH_SECRET);
-
-    return next();
-  } catch (err) {
-    return res.status(401).json({
-      message: "Unauthorized",
-    });
-  }
-}

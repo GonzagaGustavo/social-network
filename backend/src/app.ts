@@ -4,6 +4,7 @@ import { config } from "dotenv";
 import UserRoutes from "./routes/user";
 import bodyParser from "body-parser";
 import cors from "cors";
+import PostRouter from "./routes/post";
 
 config();
 const app = express();
@@ -22,5 +23,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/user", UserRoutes);
+app.use("/post", PostRouter);
 
 server.listen(3001, () => console.log("> Server listening on port: 3001"));
