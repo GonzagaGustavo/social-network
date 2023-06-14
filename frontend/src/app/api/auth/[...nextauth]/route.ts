@@ -1,5 +1,4 @@
 import { apiPost } from "@/utils/constants";
-import { AxiosResponse } from "axios";
 import NextAuth, { AuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
@@ -15,6 +14,31 @@ async function login(credentials: {
   password: string;
 }): Promise<any> {
   return await apiPost("/user/login", credentials);
+}
+
+async function refreshAccessToken(refreshToken: {
+  id: string;
+  expiresIn: number;
+  userId: number;
+}) {
+  console.log("refresh token");
+
+  const refresh = await apiPost("/user/refresh-token", {
+    refresh_token: refreshToken.id,
+  });
+
+  if (refresh.status === 200) {
+    return {
+      accessToken: refresh.data.token,
+      id: refresh.data.refreshToken.userId,
+      user: refresh.data.user,
+      refreshToken: refresh.data.refreshToken,
+    };
+  } else {
+    return {
+      err: refresh.data.message,
+    };
+  }
 }
 
 export const authOptions: AuthOptions = {
@@ -42,17 +66,32 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     async jwt({ user: modifiedUser, token, session }) {
+      console.log("json web token");
       const user: ResponseUser = modifiedUser as any;
 
       if (user) {
         token.accessToken = user.token;
         token.id = user.refreshToken.userId;
         token.user = user.user;
+        token.refreshToken = user.refreshToken;
       }
 
-      return token;
+      const refreshToken =
+        (token.refreshToken as {
+          id: string;
+          expiresIn: number;
+          userId: number;
+        }) || user.refreshToken;
+
+      if (Date.now() < refreshToken.expiresIn * 1000) {
+        return token;
+      }
+
+      return await refreshAccessToken(user.refreshToken);
     },
     async session({ session, token }) {
+      if (token.err) return session;
+
       if (token.user) {
         session.user = token.user as {
           name: string;

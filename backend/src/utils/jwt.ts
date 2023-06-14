@@ -12,18 +12,21 @@ export async function generateToken(playload: UserPlayload): Promise<{
   token: string;
   refreshToken: RefreshToken;
 }> {
+  const expiresIn = Math.floor(Date.now() / 1000) + 60 * 60 * 24; // 24 hour
+
   const token = jwt.sign(playload, process.env.AUTH_SECRET, {
-    expiresIn: Math.floor(Date.now() / 1000) + 60 * 60 * 24, // 24 hour
+    expiresIn: expiresIn,
     subject: String(playload.id),
   });
-  const refreshToken = await generateRefreshToken(playload.id);
+  const refreshToken = await generateRefreshToken(playload.id, expiresIn);
 
   return { token, refreshToken };
 }
 
-async function generateRefreshToken(userId: number): Promise<RefreshToken> {
-  const expiresIn = Math.floor(Date.now() / 1000) + 60 * 60 * 24; // 24 hour
-
+async function generateRefreshToken(
+  userId: number,
+  expiresIn: number
+): Promise<RefreshToken> {
   await prisma.refreshToken.deleteMany({
     where: {
       userId: userId,
