@@ -34,14 +34,14 @@ export default function LoginPage() {
               name="email"
               type="email"
               placeholder="Email"
-              className={styles.input}
+              className="input"
               required
             />
             <input
               name="password"
               type="password"
               placeholder="Senha"
-              className={styles.input}
+              className="input"
               required
             />
             <p>

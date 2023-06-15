@@ -9,7 +9,7 @@ export default function GetContent() {
   const [file, setFile] = useState<File | null>(null);
 
   if (file) {
-    return <Post />;
+    return <Post file={file} />;
   } else {
     return (
       <SelectFile>

@@ -39,7 +39,7 @@ export default function InputUsername() {
     <div className={styles.inputWrapper}>
       <label>Username</label>
       <Field
-        className={styles.input}
+        className="input"
         type="text"
         name="username"
         onKeyUp={(e: any) => setUsername(e.target.value)}
