@@ -15,7 +15,7 @@ import { secureApiPost } from "@/utils/constants";
 import { useSession } from "next-auth/react";
 
 type Props = {
-  file: File;
+  file: File | any;
 };
 
 export default function Form({ file }: Props) {
@@ -30,6 +30,7 @@ export default function Form({ file }: Props) {
     formData.append("title", values.title);
     formData.append("description", values.description);
     formData.append("file", file);
+    formData.append("croppedArea", JSON.stringify(file.croppedArea));
 
     const res = await secureApiPost("/post", formData, session?.accessToken!);
 

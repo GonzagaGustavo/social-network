@@ -18,7 +18,7 @@ export default function CropDialog({ open, file, setFile, setCropped }: Props) {
   const [aspect, setAspect] = useState<AspectRatio>("1 / 1");
   const [zoom, setZoom] = useState(1);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+  const [croppedArea, setCroppedArea] = useState<Area | null>(null);
 
   useEffect(() => {
     if (file) {
@@ -29,19 +29,19 @@ export default function CropDialog({ open, file, setFile, setCropped }: Props) {
   }, [file]);
 
   const cropComplete = (croppedArea: Area, croppedAreaPixels: Area) => {
-    setCroppedAreaPixels(croppedAreaPixels);
+    setCroppedArea(croppedArea);
   };
 
   function next() {
     if (!file) return;
-    setFile(
-      Object.assign(file, {
-        croppedAreaPixels,
-        zoom,
-        crop,
-        aspectRatio: aspect,
-      })
-    );
+    const newFile = Object.assign(file, {
+      croppedArea,
+      zoom,
+      crop,
+      aspectRatio: aspect,
+    });
+
+    setFile(newFile);
 
     setCropped(true);
   }
