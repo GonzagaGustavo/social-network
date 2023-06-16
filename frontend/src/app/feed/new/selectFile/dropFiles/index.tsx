@@ -2,12 +2,16 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../selectFile.module.scss";
+import CropDialog from "./cropDialog";
 
 type Props = {
+  file: File | null;
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
+  cropped: boolean;
+  setCropped: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function DropFiles({ setFile }: Props) {
+export default function DropFiles({ setFile, file, setCropped }: Props) {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -67,6 +71,12 @@ export default function DropFiles({ setFile }: Props) {
 
   return (
     <>
+      <CropDialog
+        file={file}
+        setFile={setFile}
+        open={file ? true : undefined}
+        setCropped={setCropped}
+      />
       <input
         style={{ display: "none" }}
         type="file"
