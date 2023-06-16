@@ -1,6 +1,7 @@
 import admin, { ServiceAccount } from "firebase-admin";
 import serviceAccount from "../secret/social-network-firebase-adminsdk.json";
 import { NextFunction, Request, Response } from "express";
+import sharp from "sharp";
 
 export interface CustomFile extends File {
   firebaseUrl: string;
@@ -13,9 +14,26 @@ admin.initializeApp({
 
 const bucket = admin.storage().bucket();
 
-function processFile(file: File) {}
+async function processFile(
+  file: Express.Multer.File,
+  croppedArea: { height: number; width: number; x: number; y: number }
+) {
+  const process = sharp(file.buffer);
 
-export function uploadImageToStorage(
+  const metadata = await process.metadata();
+
+  return await process
+    .extract({
+      height: Math.round((croppedArea.height / 100) * metadata.height),
+      width: Math.round((croppedArea.width / 100) * metadata.width),
+      left: Math.round((croppedArea.x / 100) * metadata.width),
+      top: Math.round((croppedArea.y / 100) * metadata.height),
+    })
+    .toFormat("webp")
+    .toBuffer();
+}
+
+export async function uploadImageToStorage(
   req: Request,
   res: Response,
   next: NextFunction
@@ -23,13 +41,18 @@ export function uploadImageToStorage(
   if (!req.body.title && !req.body.description && !req.file)
     res.status(201).json({ message: "Invalid options" });
 
-  const fileName = Date.now() + "." + req.file.originalname.split(".").pop();
+  const fileBuffer = await processFile(
+    req.file,
+    JSON.parse(req.body.croppedArea)
+  );
+
+  const fileName = Date.now() + "." + "webp";
 
   const file = bucket.file(fileName);
 
   const stream = file.createWriteStream({
     metadata: {
-      contentType: req.file.mimetype,
+      contentType: "image/webp",
     },
   });
 
@@ -47,5 +70,5 @@ export function uploadImageToStorage(
     next();
   });
 
-  stream.end(req.file.buffer);
+  stream.end(fileBuffer);
 }
