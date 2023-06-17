@@ -21,7 +21,7 @@ export default function CropDialog({ open, file, setFile, setCropped }: Props) {
   const [croppedArea, setCroppedArea] = useState<Area | null>(null);
 
   useEffect(() => {
-    if (file) {
+    if (file && file.type.substring(0, 5) === "image") {
       setFileUrl(URL.createObjectURL(file));
     } else {
       setFileUrl(null);
@@ -67,9 +67,12 @@ export default function CropDialog({ open, file, setFile, setCropped }: Props) {
         </div>
 
         <div className={styles.dialogActions}>
-          <button onClick={() => setFile(null)}>Voltar</button>
+          <button className={styles.buttonBack} onClick={() => setFile(null)}>
+            Voltar
+          </button>
 
           <select
+            className={styles.select}
             value={aspect}
             onChange={(e) => setAspect(e.target.value as AspectRatio)}
           >
@@ -78,7 +81,9 @@ export default function CropDialog({ open, file, setFile, setCropped }: Props) {
             <option value="4 / 5">4:5</option>
           </select>
 
-          <button onClick={next}>Avançar</button>
+          <button className={styles.button} onClick={next}>
+            Avançar
+          </button>
         </div>
       </div>
     </div>

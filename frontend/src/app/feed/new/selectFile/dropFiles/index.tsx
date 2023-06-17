@@ -63,6 +63,7 @@ export default function DropFiles({ setFile, file, setCropped }: Props) {
       "image/webp",
       "image/svg+xml",
       "application/pdf",
+      "video/mp4",
     ];
 
     if (!imagesSupported.find((type) => type === file.type)) return;
@@ -74,7 +75,7 @@ export default function DropFiles({ setFile, file, setCropped }: Props) {
       <CropDialog
         file={file}
         setFile={setFile}
-        open={file ? true : undefined}
+        open={file && file.type.substring(0, 5) === "image" ? true : undefined}
         setCropped={setCropped}
       />
       <input

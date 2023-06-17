@@ -24,4 +24,42 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  background-color: white;
+}
+
+.select {
+  border: none;
+  border-radius: 4px;
+  padding: 10px 12px;
+  background-color: var(--primary);
+  color: white;
+}
+
+.button {
+  margin: 0 10px;
+  border: none;
+  padding: 10px 12px;
+  font-size: medium;
+  border-radius: 4px;
+  background-color: var(--primary);
+  color: var(--primaryFont);
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.buttonBack {
+  margin: 0 10px;
+  border: none;
+  padding: 10px 12px;
+  font-size: medium;
+  border-radius: 4px;
+  background-color: #e01c1c;
+  color: var(--primaryFont);
+
+  &:hover {
+    cursor: pointer;
+  }
 }
