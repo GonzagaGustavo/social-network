@@ -8,9 +8,10 @@ import DropFiles from "./selectFile/dropFiles";
 export default function GetContent() {
   const [file, setFile] = useState<File | null>(null);
   const [cropped, setCropped] = useState<boolean>(false);
+  const [thumb, setThumb] = useState<File | null>(null);
 
   if (file && cropped) {
-    return <Post file={file} />;
+    return <Post thumb={thumb} file={file} />;
   } else {
     return (
       <SelectFile>
@@ -19,6 +20,8 @@ export default function GetContent() {
           setFile={setFile}
           cropped={cropped}
           setCropped={setCropped}
+          setThumb={setThumb}
+          thumb={thumb}
         />
       </SelectFile>
     );

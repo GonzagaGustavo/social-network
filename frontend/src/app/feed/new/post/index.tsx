@@ -3,8 +3,9 @@ import Form from "./form";
 
 type Props = {
   file: File;
+  thumb: File | null;
 };
 
-export default function Post({ file }: Props) {
-  return <Form file={file} />;
+export default function Post({ file, thumb }: Props) {
+  return <Form file={file} thumb={thumb} />;
 }

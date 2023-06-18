@@ -62,6 +62,12 @@ export default function CropDialog({ open, file, setFile, setCropped }: Props) {
               zoom={zoom}
               onZoomChange={setZoom}
               onCropComplete={cropComplete}
+              style={{
+                containerStyle: {
+                  borderTopLeftRadius: "4px",
+                  borderTopRightRadius: "4px",
+                },
+              }}
             />
           ) : null}
         </div>

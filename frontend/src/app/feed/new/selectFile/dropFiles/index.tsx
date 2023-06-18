@@ -8,14 +8,24 @@ import VideoDialog from "./videoDialog";
 type Props = {
   file: File | null;
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
+  thumb: File | null;
+  setThumb: React.Dispatch<React.SetStateAction<File | null>>;
   cropped: boolean;
   setCropped: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function DropFiles({ setFile, file, setCropped }: Props) {
+export default function DropFiles({
+  setFile,
+  file,
+  setCropped,
+  thumb,
+  setThumb,
+}: Props) {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (file) return;
+
     function drop(e: DragEvent) {
       e.preventDefault();
       const file = e.dataTransfer?.files[0];
@@ -30,6 +40,7 @@ export default function DropFiles({ setFile, file, setCropped }: Props) {
         "image/webp",
         "image/svg+xml",
         "application/pdf",
+        "video/mp4",
       ];
 
       if (!imagesSupported.find((type) => type === file.type)) return;
@@ -49,7 +60,7 @@ export default function DropFiles({ setFile, file, setCropped }: Props) {
       );
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [file]);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
@@ -79,7 +90,13 @@ export default function DropFiles({ setFile, file, setCropped }: Props) {
         open={file && file.type.substring(0, 5) === "image" ? true : undefined}
         setCropped={setCropped}
       />
-      <VideoDialog />
+      <VideoDialog
+        open={file && file.type.substring(0, 5) === "video" ? true : undefined}
+        setFile={setFile}
+        setThumb={setThumb}
+        thumb={thumb}
+        setCropped={setCropped}
+      />
       <input
         style={{ display: "none" }}
         type="file"

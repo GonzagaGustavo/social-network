@@ -16,9 +16,10 @@ import { useSession } from "next-auth/react";
 
 type Props = {
   file: File | any;
+  thumb: File | null;
 };
 
-export default function Form({ file }: Props) {
+export default function Form({ file, thumb }: Props) {
   const { data: session } = useSession();
 
   const onSubmit = async (
@@ -30,7 +31,11 @@ export default function Form({ file }: Props) {
     formData.append("title", values.title);
     formData.append("description", values.description);
     formData.append("file", file);
-    formData.append("croppedArea", JSON.stringify(file.croppedArea));
+    if (file.type.substring(0, 5) === "video") {
+      if (thumb) formData.append("thumb", thumb);
+    } else {
+      formData.append("croppedArea", JSON.stringify(file.croppedArea));
+    }
 
     const res = await secureApiPost("/post", formData, session?.accessToken!);
 
