@@ -24,7 +24,8 @@ model User {
   estate        String        @default("") @db.VarChar(100)
   city          String        @default("") @db.VarChar(100)
   refresh_token RefreshToken?
-  Post          Post[]
+  post          Post[]
+  likes         Likes[]
 
   @@map("user")
 }
@@ -43,12 +44,33 @@ model Post {
   autor       User     @relation(fields: [autor_id], references: [id])
   autor_id    Int
   type        String   @db.VarChar(50)
-  file        String   @db.VarChar(150)
+  file        String?  @default(dbgenerated("NULL")) @db.VarChar(150)
   title       String   @db.VarChar(200)
   description String   @db.Text()
   created     DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.DateTime
   favorites   Int      @default(0) @db.Int()
-  likes       Int      @default(0) @db.Int()
   deslikes    Int      @default(0) @db.Int()
   shares      Int      @default(0) @db.Int()
+  video       Video?   @relation(fields: [video_id], references: [id])
+  video_id    Int?     @unique @default(dbgenerated("NULL")) @db.Int
+  likes       Likes[]
+}
+
+model Video {
+  id     Int     @id @default(autoincrement()) @db.Int()
+  thumb  String  @db.VarChar(150)
+  v1080p String? @default(dbgenerated("NULL")) @db.VarChar(150)
+  v720p  String? @default(dbgenerated("NULL")) @db.VarChar(150)
+  v480p  String? @default(dbgenerated("NULL")) @db.VarChar(150)
+  v144p  String? @default(dbgenerated("NULL")) @db.VarChar(150)
+
+  post Post?
+}
+
+model Likes {
+  id      String @id @default(uuid())
+  post    Post   @relation(fields: [post_id], references: [id])
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id Int
+  post_id Int
 }

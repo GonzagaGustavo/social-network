@@ -2,9 +2,17 @@ import admin, { ServiceAccount } from "firebase-admin";
 import serviceAccount from "../secret/social-network-firebase-adminsdk.json";
 import { NextFunction, Request, Response } from "express";
 import sharp from "sharp";
+import { socket } from "../app";
+import processVideo from "../utils/video";
 
 export interface CustomFile extends File {
-  firebaseUrl: string;
+  firebaseUrl: string | undefined;
+  video?: {
+    v1080: string | null;
+    v720: string | null;
+    v480: string | null;
+    v144: string | null;
+  };
 }
 
 admin.initializeApp({
@@ -12,9 +20,9 @@ admin.initializeApp({
   storageBucket: process.env.BUCKET,
 });
 
-const bucket = admin.storage().bucket();
+export const bucket = admin.storage().bucket();
 
-async function processFile(
+async function processImage(
   file: Express.Multer.File,
   croppedArea: { height: number; width: number; x: number; y: number }
 ) {
@@ -33,15 +41,12 @@ async function processFile(
     .toBuffer();
 }
 
-export async function uploadImageToStorage(
+async function uploadImageToStorage(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  if (!req.body.title && !req.body.description && !req.file)
-    res.status(201).json({ message: "Invalid options" });
-
-  const fileBuffer = await processFile(
+  const fileBuffer = await processImage(
     req.file,
     JSON.parse(req.body.croppedArea)
   );
@@ -71,4 +76,38 @@ export async function uploadImageToStorage(
   });
 
   stream.end(fileBuffer);
+}
+
+async function uploadVideoToStorage(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  socket
+    .to(String(req.user.id))
+    .emit("video", "transformando video em várias qualidades...");
+
+  const reqFile: CustomFile = req.file as unknown as CustomFile;
+  const videosUploaded = await processVideo(req.file);
+
+  socket.to(String(req.user.id)).emit("video", "publicando video...");
+
+  reqFile.video = videosUploaded;
+
+  next();
+}
+
+export async function uploadFileToStorage(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  if (!req.body.title && !req.body.description && !req.file)
+    res.status(201).json({ message: "Invalid options" });
+
+  if (req.file.mimetype.substring(0, 5) === "image") {
+    uploadImageToStorage(req, res, next);
+  } else {
+    uploadVideoToStorage(req, res, next);
+  }
 }

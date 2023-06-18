@@ -5,10 +5,12 @@ import UserRoutes from "./routes/user";
 import bodyParser from "body-parser";
 import cors from "cors";
 import PostRouter from "./routes/post";
+import { Server } from "socket.io";
 
 config();
 const app = express();
 const server = http.createServer(app);
+export const socket = new Server(server);
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: "true" }));

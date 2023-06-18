@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../selectFile.module.scss";
 import CropDialog from "./cropDialog";
+import VideoDialog from "./videoDialog";
 
 type Props = {
   file: File | null;
@@ -78,6 +79,7 @@ export default function DropFiles({ setFile, file, setCropped }: Props) {
         open={file && file.type.substring(0, 5) === "image" ? true : undefined}
         setCropped={setCropped}
       />
+      <VideoDialog />
       <input
         style={{ display: "none" }}
         type="file"
