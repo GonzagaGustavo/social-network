@@ -114,14 +114,19 @@ function videoTo144p(filePath: string): Promise<string> {
       `${filePath}`,
       "-vcodec",
       "libx264",
-      "-preset",
-      "ultrafast",
+      "-b:v",
+      "200k",
+      "-c:a",
+      "aac",
       "-vf",
       "scale=-2:144",
       "-f",
       "mp4",
       `${tempFilePath}`,
     ]);
+
+    ffmpeg.stderr.on("data", (data) => console.log(data.toString()));
+
     ffmpeg.on("close", (code) => {
       if (code === 0) {
         const file = bucket.file(fileName);
@@ -167,10 +172,12 @@ function videoTo480p(filePath: string): Promise<string> {
     const ffmpeg = spawn(ffmpegPath, [
       `-i`,
       `${filePath}`,
-      "-vcodec",
+      "-c:v",
       "libx264",
-      "-preset",
-      "ultrafast",
+      "-b:v",
+      "2000k",
+      "-c:a",
+      "aac",
       "-vf",
       "scale=-2:480",
       "-f",
@@ -222,10 +229,12 @@ function videoTo720p(filePath: string): Promise<string> {
     const ffmpeg = spawn(ffmpegPath, [
       `-i`,
       `${filePath}`,
-      "-vcodec",
+      "-c:v",
       "libx264",
-      "-preset",
-      "ultrafast",
+      "-b:v",
+      "5000k",
+      "-c:a",
+      "aac",
       "-vf",
       "scale=-2:720",
       "-f",
@@ -277,10 +286,12 @@ function videoTo1080p(filePath: string): Promise<string> {
     const ffmpeg = spawn(ffmpegPath, [
       `-i`,
       `${filePath}`,
-      "-vcodec",
+      "-c:v",
       "libx264",
-      "-preset",
-      "ultrafast",
+      "-b:v",
+      "8000k",
+      "-c:a",
+      "aac",
       "-vf",
       "scale=-2:1080",
       "-f",
