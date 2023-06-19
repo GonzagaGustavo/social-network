@@ -5,16 +5,6 @@ import sharp from "sharp";
 import { socket } from "../app";
 import processVideo from "../utils/video";
 
-export interface CustomFile extends File {
-  firebaseUrl: string | undefined;
-  video?: {
-    v1080: string | null;
-    v720: string | null;
-    v480: string | null;
-    v144: string | null;
-  };
-}
-
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as ServiceAccount),
   storageBucket: process.env.BUCKET,
@@ -47,7 +37,7 @@ async function uploadImageToStorage(
   next: NextFunction
 ) {
   const fileBuffer = await processImage(
-    req.file,
+    req.files[0],
     JSON.parse(req.body.croppedArea)
   );
 
@@ -69,13 +59,46 @@ async function uploadImageToStorage(
   stream.on("finish", async () => {
     await file.makePublic();
 
-    const reqFile: CustomFile = req.file as unknown as CustomFile;
-    reqFile.firebaseUrl = `https://storage.googleapis.com/${process.env.BUCKET}/${fileName}`;
+    req.fileInfos.firebaseUrl = `https://storage.googleapis.com/${process.env.BUCKET}/${fileName}`;
 
     next();
   });
 
   stream.end(fileBuffer);
+}
+
+async function uploadThumbToStorage(
+  thumb: Express.Multer.File
+): Promise<string> {
+  return new Promise(async (resolve, reject) => {
+    const fileBuffer = await sharp(thumb.buffer).toFormat("webp").toBuffer();
+
+    const fileName = Date.now() + "." + "webp";
+
+    const file = bucket.file(fileName);
+
+    const stream = file.createWriteStream({
+      metadata: {
+        contentType: "image/webp",
+      },
+      resumable: false,
+    });
+
+    stream.on("error", (err) => {
+      console.error(err);
+      reject(err);
+    });
+
+    stream.on("finish", async () => {
+      await file.makePublic();
+
+      resolve(
+        `https://storage.googleapis.com/${process.env.BUCKET}/${fileName}`
+      );
+    });
+
+    stream.end(fileBuffer);
+  });
 }
 
 async function uploadVideoToStorage(
@@ -87,12 +110,13 @@ async function uploadVideoToStorage(
     .to(String(req.user.id))
     .emit("video", "transformando video em várias qualidades...");
 
-  const reqFile: CustomFile = req.file as unknown as CustomFile;
-  const videosUploaded = await processVideo(req.file);
+  const videosUploaded = await processVideo(req.files[0]);
 
   socket.to(String(req.user.id)).emit("video", "publicando video...");
 
-  reqFile.video = videosUploaded;
+  const thumb = await uploadThumbToStorage(req.files[1]);
+
+  req.fileInfos = { ...videosUploaded, thumb, firebaseUrl: null, video: true };
 
   next();
 }
@@ -102,12 +126,13 @@ export async function uploadFileToStorage(
   res: Response,
   next: NextFunction
 ) {
-  if (!req.body.title && !req.body.description && !req.file)
+  const file = req.files[0];
+  if (!req.body.title && !req.body.description && !file)
     res.status(201).json({ message: "Invalid options" });
 
-  if (req.file.mimetype.substring(0, 5) === "image") {
-    uploadImageToStorage(req, res, next);
+  if (file.mimetype.substring(0, 5) === "image") {
+    await uploadImageToStorage(req, res, next);
   } else {
-    uploadVideoToStorage(req, res, next);
+    await uploadVideoToStorage(req, res, next);
   }
 }

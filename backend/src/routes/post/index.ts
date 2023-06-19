@@ -2,23 +2,21 @@ import { Router } from "express";
 import prisma from "../../db";
 import AuthGuard from "../../middlewares/jwt";
 import Multer from "../../middlewares/multer";
-import { CustomFile, uploadFileToStorage } from "../../middlewares/firebase";
+import { uploadFileToStorage } from "../../middlewares/firebase";
 
 const PostRouter = Router();
 
 PostRouter.post(
   "/",
   AuthGuard,
-  Multer.single("file"),
+  Multer.array("file", 2),
   uploadFileToStorage,
   async (req, res) => {
-    const reqFile: CustomFile = req.file as unknown as CustomFile;
-
-    if (reqFile.firebaseUrl) {
+    if (req.fileInfos.firebaseUrl) {
       try {
         const created = await prisma.post.create({
           data: {
-            file: reqFile.firebaseUrl,
+            file: req.fileInfos.firebaseUrl,
             title: req.body.title,
             description: req.body.description,
             type: "image",
@@ -30,15 +28,15 @@ PostRouter.post(
         console.error(err);
         res.status(201).json({ message: err });
       }
-    } else if (reqFile.video) {
+    } else if (req.fileInfos.video) {
       try {
         const videoCreated = await prisma.video.create({
           data: {
-            thumb: "",
-            v1080p: reqFile.video.v1080,
-            v720p: reqFile.video.v720,
-            v480p: reqFile.video.v480,
-            v144p: reqFile.video.v144,
+            thumb: req.fileInfos.thumb,
+            v1080p: req.fileInfos.v1080,
+            v720p: req.fileInfos.v720,
+            v480p: req.fileInfos.v480,
+            v144p: req.fileInfos.v144,
           },
         });
 

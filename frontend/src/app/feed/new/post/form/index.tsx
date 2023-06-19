@@ -32,7 +32,7 @@ export default function Form({ file, thumb }: Props) {
     formData.append("description", values.description);
     formData.append("file", file);
     if (file.type.substring(0, 5) === "video") {
-      if (thumb) formData.append("thumb", thumb);
+      if (thumb) formData.append("file", thumb);
     } else {
       formData.append("croppedArea", JSON.stringify(file.croppedArea));
     }
