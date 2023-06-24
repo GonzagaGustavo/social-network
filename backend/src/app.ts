@@ -10,7 +10,7 @@ import { Server } from "socket.io";
 config();
 const app = express();
 const server = http.createServer(app);
-export const socket = new Server(server);
+export const io = new Server(server);
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: "true" }));

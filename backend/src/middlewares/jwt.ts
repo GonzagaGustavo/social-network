@@ -29,3 +29,36 @@ export default function AuthGuard(
     });
   }
 }
+export function GetUser(
+  req: Request | string,
+  res?: Response,
+  next?: NextFunction
+) {
+  if (typeof req === "string") {
+    try {
+      const user = jwt.verify(req, process.env.AUTH_SECRET);
+
+      return user as UserPlayload;
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    const authToken = req.headers.authorization;
+
+    if (!authToken) {
+      next();
+    }
+
+    const [_, token] = authToken.split(" ");
+
+    try {
+      const user = jwt.verify(token, process.env.AUTH_SECRET);
+
+      req.user = user as UserPlayload;
+
+      next();
+    } catch (err) {
+      next();
+    }
+  }
+}

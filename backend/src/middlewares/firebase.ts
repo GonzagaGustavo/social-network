@@ -2,7 +2,6 @@ import admin, { ServiceAccount } from "firebase-admin";
 import serviceAccount from "../secret/social-network-firebase-adminsdk.json";
 import { NextFunction, Request, Response } from "express";
 import sharp from "sharp";
-import { socket } from "../app";
 import processVideo from "../utils/video";
 
 admin.initializeApp({
@@ -106,13 +105,7 @@ async function uploadVideoToStorage(
   res: Response,
   next: NextFunction
 ) {
-  socket
-    .to(String(req.user.id))
-    .emit("video", "transformando video em várias qualidades...");
-
   const videosUploaded = await processVideo(req.files[0]);
-
-  socket.to(String(req.user.id)).emit("video", "publicando video...");
 
   const thumb = await uploadThumbToStorage(req.files[1]);
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import prisma from "../../db";
-import AuthGuard from "../../middlewares/jwt";
+import AuthGuard, { GetUser } from "../../middlewares/jwt";
 import Multer from "../../middlewares/multer";
 import { uploadFileToStorage } from "../../middlewares/firebase";
 
@@ -58,5 +58,7 @@ PostRouter.post(
     }
   }
 );
+
+PostRouter.get("/", GetUser, (req, res) => {});
 
 export default PostRouter;
