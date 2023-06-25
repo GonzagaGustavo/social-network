@@ -15,15 +15,10 @@ type Video = {
   v144p: string | null;
 };
 
-type VideoPublic = {
-  id: number;
-  thumb: string;
-};
-
 export interface Post {
   id: number;
   autor: Author;
-  video: VideoPublic | null;
+  video: Video | null;
   created: string;
   type: string;
   title: string;

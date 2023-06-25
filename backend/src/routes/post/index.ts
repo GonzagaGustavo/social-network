@@ -68,7 +68,7 @@ PostRouter.get("/:id", GetUser, async (req, res) => {
     select: {
       id: true,
       autor: { select: publicUser },
-      video: { select: { id: true, thumb: true } },
+      video: true,
       created: true,
       type: true,
       title: true,
@@ -80,20 +80,16 @@ PostRouter.get("/:id", GetUser, async (req, res) => {
   res.status(200).json(post);
 });
 
-PostRouter.get("/video/:id/:quality", async (req, res) => {
-  const video = await prisma.video.findFirst({
-    where: { id: Number(req.params.id) },
-  });
+PostRouter.get("/video/:name", async (req, res) => {
   const range = req.headers.range;
 
   if (!range) res.status(400).send("Requires Range Header");
 
-  const videoName = video[`v${req.params.quality}p`];
-
-  if (!videoName) {
+  if (!req.params.name) {
     return res.status(400).send("quality not available");
   }
-  const file = bucket.file(videoName);
+
+  const file = bucket.file(req.params.name + ".mp4");
 
   const videoMetaData = await file.getMetadata();
 

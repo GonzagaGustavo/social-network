@@ -107,7 +107,8 @@ function videoTo144p(filePath: string): Promise<string> {
     const tempFilePath = tmp.tmpNameSync({
       postfix: path.extname("144-" + filePath),
     });
-    const fileName = Date.now() + "-144.mp4";
+    const fileNameDb = Date.now() + "-144";
+    const fileName = fileNameDb + ".mp4";
 
     const ffmpeg = spawn(ffmpegPath, [
       `-i`,
@@ -145,7 +146,7 @@ function videoTo144p(filePath: string): Promise<string> {
 
             await file.makePublic();
 
-            resolve(`${fileName}`);
+            resolve(fileNameDb);
           })
           .on("error", (error) => {
             console.error(
@@ -165,7 +166,8 @@ function videoTo480p(filePath: string): Promise<string> {
     const tempFilePath = tmp.tmpNameSync({
       postfix: path.extname("480-" + filePath),
     });
-    const fileName = Date.now() + "-480.mp4";
+    const fileNameDb = Date.now() + "-480";
+    const fileName = fileNameDb + ".mp4";
 
     const ffmpeg = spawn(ffmpegPath, [
       `-i`,
@@ -200,7 +202,7 @@ function videoTo480p(filePath: string): Promise<string> {
 
             await file.makePublic();
 
-            resolve(`${fileName}`);
+            resolve(fileNameDb);
           })
           .on("error", (error) => {
             console.error(
@@ -220,7 +222,8 @@ function videoTo720p(filePath: string): Promise<string> {
     const tempFilePath = tmp.tmpNameSync({
       postfix: path.extname("720-" + filePath),
     });
-    const fileName = Date.now() + "-720.mp4";
+    const fileNameDb = Date.now() + "-720";
+    const fileName = fileNameDb + ".mp4";
 
     const ffmpeg = spawn(ffmpegPath, [
       `-i`,
@@ -255,7 +258,7 @@ function videoTo720p(filePath: string): Promise<string> {
 
             await file.makePublic();
 
-            resolve(`${fileName}`);
+            resolve(fileNameDb);
           })
           .on("error", (error) => {
             console.error(
@@ -275,7 +278,8 @@ function videoTo1080p(filePath: string): Promise<string> {
     const tempFilePath = tmp.tmpNameSync({
       postfix: path.extname("1080-" + filePath),
     });
-    const fileName = Date.now() + "-1080.mp4";
+    const fileNameDb = Date.now() + "-1080";
+    const fileName = fileNameDb + ".mp4";
 
     const ffmpeg = spawn(ffmpegPath, [
       `-i`,
@@ -310,7 +314,7 @@ function videoTo1080p(filePath: string): Promise<string> {
 
             await file.makePublic();
 
-            resolve(`${fileName}`);
+            resolve(fileNameDb);
           })
           .on("error", (error) => {
             console.error(
