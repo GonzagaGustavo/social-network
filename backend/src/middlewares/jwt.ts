@@ -47,18 +47,18 @@ export function GetUser(
 
     if (!authToken) {
       next();
-    }
+    } else {
+      const [_, token] = authToken.split(" ");
 
-    const [_, token] = authToken.split(" ");
+      try {
+        const user = jwt.verify(token, process.env.AUTH_SECRET);
 
-    try {
-      const user = jwt.verify(token, process.env.AUTH_SECRET);
+        req.user = user as UserPlayload;
 
-      req.user = user as UserPlayload;
-
-      next();
-    } catch (err) {
-      next();
+        next();
+      } catch (err) {
+        next();
+      }
     }
   }
 }

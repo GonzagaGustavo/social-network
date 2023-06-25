@@ -145,9 +145,7 @@ function videoTo144p(filePath: string): Promise<string> {
 
             await file.makePublic();
 
-            resolve(
-              `https://storage.googleapis.com/${process.env.BUCKET}/${fileName}`
-            );
+            resolve(`${fileName}`);
           })
           .on("error", (error) => {
             console.error(
@@ -202,9 +200,7 @@ function videoTo480p(filePath: string): Promise<string> {
 
             await file.makePublic();
 
-            resolve(
-              `https://storage.googleapis.com/${process.env.BUCKET}/${fileName}`
-            );
+            resolve(`${fileName}`);
           })
           .on("error", (error) => {
             console.error(
@@ -259,9 +255,7 @@ function videoTo720p(filePath: string): Promise<string> {
 
             await file.makePublic();
 
-            resolve(
-              `https://storage.googleapis.com/${process.env.BUCKET}/${fileName}`
-            );
+            resolve(`${fileName}`);
           })
           .on("error", (error) => {
             console.error(
@@ -316,9 +310,7 @@ function videoTo1080p(filePath: string): Promise<string> {
 
             await file.makePublic();
 
-            resolve(
-              `https://storage.googleapis.com/${process.env.BUCKET}/${fileName}`
-            );
+            resolve(`${fileName}`);
           })
           .on("error", (error) => {
             console.error(

@@ -13,6 +13,10 @@ module.exports = {
       colors: {
         dialogBg: "#00000085",
       },
+      spacing: {
+        "h-video": "360px",
+        "w-video": "640px",
+      },
     },
   },
   plugins: [],

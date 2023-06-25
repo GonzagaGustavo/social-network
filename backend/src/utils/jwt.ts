@@ -68,3 +68,18 @@ export async function generateTokenFromRefreshToken(refreshToken: string) {
 
   return newToken;
 }
+
+export const publicUser = {
+  password: false,
+  country: false,
+  phone: false,
+  city: false,
+  estate: false,
+  email: false,
+  bio: true,
+  birthday: false,
+  gender: true,
+  id: true,
+  name: true,
+  username: true,
+};

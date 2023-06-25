@@ -5,6 +5,7 @@ import {
   UserPlayload,
   generateToken,
   generateTokenFromRefreshToken,
+  publicUser,
 } from "../../utils/jwt";
 import AuthGuard from "../../middlewares/jwt";
 
@@ -64,20 +65,7 @@ UserRoutes.get("/", async (req, res) => {
           id: id ? id : undefined,
           username: username ? username : undefined,
         },
-        select: {
-          password: false,
-          country: false,
-          phone: false,
-          city: false,
-          estate: false,
-          email: false,
-          bio: true,
-          birthday: true,
-          gender: true,
-          id: true,
-          name: true,
-          username: true,
-        },
+        select: publicUser,
       });
       await prisma.$disconnect();
 
