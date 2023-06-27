@@ -35,6 +35,7 @@ async function refreshAccessToken(refreshToken: {
       refreshToken: refresh.data.refreshToken,
     };
   } else {
+    console.error(refresh.data.message);
     return {
       err: refresh.data.message,
     };
@@ -83,6 +84,7 @@ export const authOptions: AuthOptions = {
           userId: number;
         }) || user.refreshToken;
 
+      console.log(refreshToken.expiresIn * 1000);
       if (Date.now() < refreshToken.expiresIn * 1000) {
         return token;
       }

@@ -7,7 +7,7 @@ type Props = {
 
 export default async function Video({ params }: Props) {
   return (
-    <div className="w-screen flex justify-between pt-5">
+    <div className="w-screen flex justify-between">
       <div className="w-2/3">
         <Suspense fallback={<p>Carregando...</p>}>
           <VideoInfos id={params.id} />

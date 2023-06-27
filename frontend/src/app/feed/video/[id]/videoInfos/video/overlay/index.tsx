@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import { TbPlayerTrackNext } from "react-icons/tb";
 import { FiPause, FiPlay, FiVolumeX } from "react-icons/fi";
 import { BiFullscreen } from "react-icons/bi";
-import { IoSettingsSharp } from "react-icons/io5";
 import { RiPictureInPicture2Line } from "react-icons/ri";
+import Config from "./config";
 
 type Props = {
   videoRef: React.RefObject<HTMLVideoElement>;
@@ -44,7 +44,10 @@ export default function Overlay({ videoRef }: Props) {
             <div className="h-full w-full flex items-center justify-between">
               <div className="flex gap-3">
                 {/* Play Button */}
-                <div className="h-7 w-7">
+                <div
+                  className="h-7 w-7 cursor-pointer"
+                  onClick={() => setPlaying((old) => !old)}
+                >
                   {isPlaying ? (
                     <FiPause className="fill-white stroke-white h-full w-full" />
                   ) : (
@@ -64,17 +67,15 @@ export default function Overlay({ videoRef }: Props) {
                 <div className="h-7 w-7"></div>
               </div>
               <div className="flex gap-3">
-                <div className="h-7 w-7">
-                  <IoSettingsSharp className="fill-white h-full w-full" />
-                </div>
-                <div className="h-7 w-7">
+                <Config />
+                <div className="h-7 w-7 hover:cursor-pointer">
                   <RiPictureInPicture2Line
                     className="fill-white h-full w-full"
                     onClick={() => videoRef.current?.requestPictureInPicture()}
                   />
                 </div>
                 <div
-                  className="h-7 w-7"
+                  className="h-7 w-7 hover:cursor-pointer"
                   onClick={() => videoRef.current?.requestFullscreen()}
                 >
                   <BiFullscreen className="fill-white h-full w-full" />

@@ -61,6 +61,9 @@ devDependencies:
   postcss:
     specifier: ^8.4.23
     version: 8.4.23
+  postcss-nesting:
+    specifier: ^11.3.0
+    version: 11.3.0(postcss@8.4.23)
   tailwindcss:
     specifier: ^3.3.2
     version: 3.3.2
@@ -78,6 +81,15 @@ packages:
     dependencies:
       regenerator-runtime: 0.13.11
     dev: false
+
+  /@csstools/selector-specificity@2.2.0(postcss-selector-parser@6.0.13):
+    resolution: {integrity: sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==}
+    engines: {node: ^14 || ^16 || >=18}
+    peerDependencies:
+      postcss-selector-parser: ^6.0.10
+    dependencies:
+      postcss-selector-parser: 6.0.13
+    dev: true
 
   /@eslint-community/eslint-utils@4.4.0(eslint@8.42.0):
     resolution: {integrity: sha512-1/sA4dwrzBAyeUoQ6oxahHKmrZvsnLCg4RfxW3ZFGGmQkSNQPFNLV9CUEFQP1x9EYXHTo5p6xdhZM1Ne9p/AfA==}
@@ -2312,6 +2324,17 @@ packages:
     peerDependencies:
       postcss: ^8.2.14
     dependencies:
+      postcss: 8.4.23
+      postcss-selector-parser: 6.0.13
+    dev: true
+
+  /postcss-nesting@11.3.0(postcss@8.4.23):
+    resolution: {integrity: sha512-JlS10AQm/RzyrUGgl5irVkAlZYTJ99mNueUl+Qab+TcHhVedLiylWVkKBhRale+rS9yWIJK48JVzQlq3LcSdeA==}
+    engines: {node: ^14 || ^16 || >=18}
+    peerDependencies:
+      postcss: ^8.4
+    dependencies:
+      '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.0.13)
       postcss: 8.4.23
       postcss-selector-parser: 6.0.13
     dev: true

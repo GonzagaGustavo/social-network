@@ -1,12 +1,12 @@
 import React from "react";
-import styles from "./header.module.scss";
+import styles from "./header.module.css";
 import Image from "next/image";
 import { CiUser, CiCirclePlus } from "react-icons/ci";
 import Link from "next/link";
 
 export default function Header() {
   return (
-    <div className={styles.main}>
+    <nav className={styles.main}>
       <div className={styles.content}>
         <Link href="/feed" className={styles.logoWrapper}>
           <Image
@@ -32,6 +32,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </div>
+    </nav>
   );
 }

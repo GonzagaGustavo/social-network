@@ -13,7 +13,7 @@ export default async function VideoInfos({ id }: Props) {
 
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <div className="w-w-video h-h-video relative">
+      <div className="max-w-[80%] w-auto h-auto relative aspect-video">
         <Video
           src={api + `/post/video/${post.video?.v720p}`}
           type="video/mp4"
