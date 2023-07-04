@@ -3,10 +3,21 @@
 import React, { useState } from "react";
 import { IoSettingsSharp } from "react-icons/io5";
 import Quality from "./quality";
+import { Post } from "@/types/api";
 
-export default function Config() {
+type Props = {
+  post: Post;
+  videoRef: React.RefObject<HTMLVideoElement>;
+};
+
+export default function Config({ post, videoRef }: Props) {
   const [configOpen, setConfigOpen] = useState(false);
   const [qualityOpen, setQualityOpen] = useState(false);
+
+  function closeConfig() {
+    setQualityOpen(false);
+    setConfigOpen(false);
+  }
 
   return (
     <div className="h-7 w-7 relative select-none">
@@ -37,7 +48,12 @@ export default function Config() {
           Quality
         </div>
 
-        <Quality open={qualityOpen} />
+        <Quality
+          open={qualityOpen}
+          post={post}
+          videoRef={videoRef}
+          closeConfig={closeConfig}
+        />
       </div>
     </div>
   );

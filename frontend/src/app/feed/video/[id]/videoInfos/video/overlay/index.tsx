@@ -6,12 +6,14 @@ import { FiPause, FiPlay, FiVolumeX } from "react-icons/fi";
 import { BiFullscreen } from "react-icons/bi";
 import { RiPictureInPicture2Line } from "react-icons/ri";
 import Config from "./config";
+import { Post } from "@/types/api";
 
 type Props = {
+  post: Post;
   videoRef: React.RefObject<HTMLVideoElement>;
 };
 
-export default function Overlay({ videoRef }: Props) {
+export default function Overlay({ videoRef, post }: Props) {
   const [isPlaying, setPlaying] = useState(false);
   const [volume, setVolume] = useState(100);
 
@@ -67,7 +69,7 @@ export default function Overlay({ videoRef }: Props) {
                 <div className="h-7 w-7"></div>
               </div>
               <div className="flex gap-3">
-                <Config />
+                <Config post={post} videoRef={videoRef} />
                 <div className="h-7 w-7 hover:cursor-pointer">
                   <RiPictureInPicture2Line
                     className="fill-white h-full w-full"

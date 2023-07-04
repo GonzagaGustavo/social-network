@@ -8,16 +8,15 @@ type Props = {
 };
 
 export default async function VideoInfos({ id }: Props) {
-  const postRes = await fetch(api + `/post/${id}`);
+  const postRes = await fetch(api + `/post/${id}`, {
+    next: { revalidate: 60 },
+  });
   const post: Post = await postRes.json();
 
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <div className="max-w-[80%] w-auto h-auto relative aspect-video">
-        <Video
-          src={api + `/post/video/${post.video?.v720p}`}
-          type="video/mp4"
-        />
+      <div className="max-w-[80%] w-w-video h-h-video relative aspect-video bg-black">
+        <Video post={post} type="video/mp4" />
       </div>
       <div className="mt-2 w-full">
         <h1 className="text-3xl font-bold">{post.title}</h1>

@@ -1,23 +1,69 @@
+"use client";
+
+import { Post } from "@/types/api";
+import { api } from "@/utils/constants";
 import React from "react";
 
-export default function Quality({ open }: { open: boolean }) {
+type Props = {
+  videoRef: React.RefObject<HTMLVideoElement>;
+  open: boolean;
+  post: Post;
+  closeConfig(): void;
+};
+
+export default function Quality({ open, post, videoRef, closeConfig }: Props) {
+  function changeVideoSrc(src: string) {
+    if (videoRef.current) {
+      videoRef.current.src = src;
+      closeConfig();
+    }
+  }
+
   return (
     <div style={{ display: open ? "block" : "none" }}>
-      <div className="p-2 cursor-pointer hover:bg-zinc-700 transition-all">
-        1080p
-      </div>
+      {post.video?.v1080p ? (
+        <div
+          className="p-2 cursor-pointer hover:bg-zinc-700 transition-all"
+          onClick={() =>
+            changeVideoSrc(api + `/post/video/${post.video?.v1080p}`)
+          }
+        >
+          1080p
+        </div>
+      ) : null}
 
-      <div className="p-2 cursor-pointer hover:bg-zinc-700 transition-all">
-        720p
-      </div>
+      {post.video?.v720p ? (
+        <div
+          className="p-2 cursor-pointer hover:bg-zinc-700 transition-all"
+          onClick={() =>
+            changeVideoSrc(api + `/post/video/${post.video?.v720p}`)
+          }
+        >
+          720p
+        </div>
+      ) : null}
 
-      <div className="p-2 cursor-pointer hover:bg-zinc-700 transition-all">
-        360p
-      </div>
+      {post.video?.v480p ? (
+        <div
+          className="p-2 cursor-pointer hover:bg-zinc-700 transition-all"
+          onClick={() =>
+            changeVideoSrc(api + `/post/video/${post.video?.v480p}`)
+          }
+        >
+          480p
+        </div>
+      ) : null}
 
-      <div className="p-2 cursor-pointer hover:bg-zinc-700 transition-all">
-        144p
-      </div>
+      {post.video?.v144p ? (
+        <div
+          className="p-2 cursor-pointer hover:bg-zinc-700 transition-all"
+          onClick={() =>
+            changeVideoSrc(api + `/post/video/${post.video?.v144p}`)
+          }
+        >
+          144p
+        </div>
+      ) : null}
     </div>
   );
 }
