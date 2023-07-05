@@ -1,7 +1,24 @@
 # Social Network
 
-Design inspiration Mobile
+## Instalar pnpm
+`npm install -g pnpm`
 
-- https://www.figma.com/file/PMC81oebvTPKFM9ojICelo/Masmasgram-Social-Media-UI-Kit-(Community)?type=design&node-id=102-1&t=T9OebUilfdYMO8b2-0
+## Instalar yarn
+`npm install -g yarn`
 
-- https://www.figma.com/file/nKxphn0cFV1G2RUTzzIbq7/Free-Social-network%2C-news-feeds---Finx-(Community)-(Community)?type=design&node-id=301-73213&t=KDCZWUSg73dOV2JV-0
+- Comando npm já vem com nodejs
+
+## Rodar backend
+`pnpm install`<br />
+<br />
+`pnpm dev`
+
+## Rodar frontend
+`pnpm install`<br />
+<br />
+`pnpm dev`
+
+## Rodar mobile
+`yarn`<br />
+<br />
+`yarn start`
