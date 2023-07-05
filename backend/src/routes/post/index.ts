@@ -59,7 +59,13 @@ PostRouter.post(
     }
   }
 );
+PostRouter.get("/", async (req, res) => {
+  const posts = await prisma.post.findMany({
+    select: { video: true, autor: true, type: true, title: true, id: true },
+  });
 
+  res.json(posts);
+});
 PostRouter.get("/:id", GetUser, async (req, res) => {
   const post = await prisma.post.findUnique({
     where: {
