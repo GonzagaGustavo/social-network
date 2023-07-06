@@ -25,3 +25,11 @@ export interface Post {
   description: string;
   file: string | null;
 }
+
+export interface PostSuggestion {
+  id: number;
+  title: string;
+  video: Video;
+  autor: Author;
+  type: string;
+}
