@@ -15,8 +15,8 @@ export default function Video({ type, post }: Props) {
 
   return (
     <>
-      <video ref={videoRef} className="w-w-video h-h-video">
-        <source src={api + `/post/video/${post.video?.v720p}`} type={type} />
+      <video ref={videoRef} className="w-full h-full">
+        <source src={api + `/post/video/${post.video?.v480p}`} type={type} />
       </video>
 
       <Overlay videoRef={videoRef} post={post} />

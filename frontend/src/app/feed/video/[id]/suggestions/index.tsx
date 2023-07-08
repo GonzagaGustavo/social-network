@@ -9,7 +9,7 @@ export default async function Suggestions() {
   const posts: PostSuggestion[] = await res.json();
 
   return (
-    <div className="w-full h-full flex flex-col gap-2">
+    <div className="w-full h-full flex flex-col gap-2 items-center">
       {posts.map((post) => (
         <SuggestionCard key={post.id} post={post} />
       ))}

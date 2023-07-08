@@ -44,3 +44,6 @@ a {
     color-scheme: dark;
   }
 } */
+.skewed {
+  transform: skew(-25deg);
+}

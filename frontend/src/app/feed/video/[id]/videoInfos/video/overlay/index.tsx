@@ -70,7 +70,7 @@ export default function Overlay({ videoRef, post }: Props) {
               </div>
               <div className="flex gap-3">
                 <Config post={post} videoRef={videoRef} />
-                <div className="h-7 w-7 hover:cursor-pointer">
+                <div className="h-7 w-7 hover:cursor-pointer hidden sm:block">
                   <RiPictureInPicture2Line
                     className="fill-white h-full w-full"
                     onClick={() => videoRef.current?.requestPictureInPicture()}
