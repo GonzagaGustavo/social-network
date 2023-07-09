@@ -19,7 +19,7 @@ export default async function VideoInfos({ post }: Props) {
         <Actions post={post} />
       </div>
 
-      <div className="my-3 w-[97%] p-3 bg-gray-200 rounded-md">
+      <div className="my-3 w-[97%] p-3 bg-gray-300 rounded-md">
         <h1 className="text-3xl font-bold">{post.title}</h1>
         <p>{post.description}</p>
       </div>

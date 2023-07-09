@@ -14,7 +14,7 @@ export default function Actions({ post }: Props) {
 
       <div className="h-full flex items-center">
         <Like />
-        <span className="h-5/6 flex justify-center items-center skewed bg-gray-200">
+        <span className="h-5/6 flex justify-center items-center skewed bg-gray-300 select-none">
           |
         </span>
         <DesLikes />

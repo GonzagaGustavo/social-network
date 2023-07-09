@@ -11,7 +11,7 @@ export default async function SuggestionCard({ post }: Props) {
   return (
     <Link
       href={`/feed/video/${post.id}`}
-      className="w-11/12 sm:w-4/5 flex overflow-hidden rounded-md bg-gray-200"
+      className="w-11/12 sm:w-4/5 flex overflow-hidden rounded-md bg-gray-300"
     >
       <Image
         src={post.video.thumb}
