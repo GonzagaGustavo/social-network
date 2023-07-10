@@ -23,6 +23,7 @@ model User {
   country       String        @default("") @db.VarChar(80)
   estate        String        @default("") @db.VarChar(100)
   city          String        @default("") @db.VarChar(100)
+  created       DateTime      @default(dbgenerated("CURRENT_TIMESTAMP")) @db.DateTime
   refresh_token RefreshToken?
   post          Post[]
   likes         Likes[]
