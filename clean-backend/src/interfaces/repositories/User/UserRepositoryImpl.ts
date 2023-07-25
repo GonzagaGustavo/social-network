@@ -1,4 +1,4 @@
-import orm from "src/framework/database";
+import orm from "../../../framework/database";
 import User, { PublicUser } from "./User";
 import UserRepository from "./UserRepository";
 

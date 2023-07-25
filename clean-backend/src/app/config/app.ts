@@ -1,8 +1,9 @@
 import express from "express";
-import setupMiddleware from "./middleware";
+import setupMiddlewares from "./middleware";
 import setupRoutes from "./routes";
 
 const app = express();
-setupMiddleware(app);
+setupMiddlewares(app);
 setupRoutes(app);
+
 export default app;

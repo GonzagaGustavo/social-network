@@ -1,4 +1,4 @@
-import UserRepositoryImpl from "src/interfaces/repositories/User/UserRepositoryImpl";
+import UserRepositoryImpl from "../../interfaces/repositories/User/UserRepositoryImpl";
 import User from "../entities/User";
 
 export default class UserUseCases {

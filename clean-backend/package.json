@@ -6,7 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "dev": "tsx --watch src/framework/server.ts",
-    "start": "tsc && node dist/app.js"
+    "start": "tsc -p tsconfig.json && node dist/src/framework/server.js"
   },
   "keywords": [],
   "author": "",

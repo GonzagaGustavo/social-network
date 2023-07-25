@@ -1,5 +1,3 @@
-import { hash } from "bcrypt";
-
 export default class User {
   id: number;
   name: string;
