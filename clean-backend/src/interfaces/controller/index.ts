@@ -58,18 +58,10 @@ export default abstract class Controller {
      * @returns statusCode 200
      */
     ok(body: any): ResponseObject {
-      if (typeof body === "object") {
-        const resbody = this.removeUnderline(body);
-        return {
-          statusCode: 200,
-          body: resbody,
-        };
-      } else {
-        return {
-          statusCode: 200,
-          body: body,
-        };
-      }
+      return {
+        statusCode: 200,
+        body: body,
+      };
     },
 
     removeUnderline(_obj: any) {

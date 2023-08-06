@@ -10,6 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Country {
+  id      Int      @id @default(autoincrement()) @db.Int()
+  name    String   @db.Text()
+  abbr    String   @db.VarChar(3)
+  sort    Int      @default(0) @db.Int
+  created DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.DateTime
+}
+
 model User {
   id            Int           @id @default(autoincrement()) @db.Int()
   name          String        @db.VarChar(150)
