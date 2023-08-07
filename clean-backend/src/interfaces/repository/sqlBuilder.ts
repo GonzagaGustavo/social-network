@@ -37,8 +37,7 @@ export default class SqlBuilder<Entity> {
       ${joins}
       ORDER BY ${order}
     `;
-
-    return serializeSql(SQL);
+    return SQL;
   }
 
   paginate(config: ServerConfig<Entity>, filter: Filter) {

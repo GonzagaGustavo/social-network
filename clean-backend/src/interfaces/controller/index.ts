@@ -12,7 +12,9 @@ export type HttpRequest = {
   user?: { id: number; email: string; name: string } | null;
 };
 
-export default abstract class Controller {
+export default abstract class Controller<UseCase> {
+  abstract useCase: UseCase;
+
   res = {
     /**
      * @returns statusCode 400

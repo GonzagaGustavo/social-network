@@ -48,7 +48,7 @@ export default abstract class Repository<Entity> {
   public abstract update(o: Entity): Promise<Entity>;
   public abstract remove(id: number): Promise<Entity>;
 
-  public constructor(module: string, entity: string, companyId: number) {
+  public constructor(module: string, entity: string) {
     this.moduleKey = module;
     this.entityKey = entity;
     this.sqlBuilder = new SqlBuilder();
@@ -59,9 +59,9 @@ export default abstract class Repository<Entity> {
     const config = this.getConfig();
 
     const sql = this.sqlBuilder.paginate(config, filter);
-    // console.log(sql)
+    console.log(sql);
 
-    const rows = await orm.$queryRaw<any>(sql, []);
+    const rows = await orm.$queryRawUnsafe<any>(sql);
     return this._rowsToObjects(rows);
   }
 
@@ -72,7 +72,7 @@ export default abstract class Repository<Entity> {
     const sql = this.sqlBuilder.getById(config, id);
     console.log(sql);
 
-    const rows = await orm.$queryRaw<any>(sql, []);
+    const rows = await orm.$queryRaw<any>(serializeSql(sql), []);
     return this._rowsToObjects(rows)[0];
   }
 

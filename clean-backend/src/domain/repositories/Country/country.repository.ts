@@ -6,6 +6,7 @@ export default class CountryRepository extends Repository<Country> {
   protected rowToObject(row: any, objects: Country[]): void {
     let obj = objects.find((u) => u.id === +row.c_id);
     if (!obj) {
+      console.log(row);
       obj = new Country({ id: +row.c_id, name: row.c_name, abbr: row.c_abbr });
       objects.push(obj);
     }

@@ -14,13 +14,13 @@ type Params = {
 type RegisterRouteInput = {
   route: string;
   params?: Params;
-  controller: Controller;
+  controller: Controller<any>;
 };
 // (httpRequest: HttpRequest) => Promise<ResponseObject>;
 
 type RouteFunction = {
   routeFunctionName: string;
-  controller: Controller;
+  controller: Controller<any>;
 };
 
 export default class RegisterRoute {
@@ -44,7 +44,7 @@ export default class RegisterRoute {
       this.adaptRoute({ routeFunctionName: "PUT", controller })
     );
     this.router.delete(
-      `${route}`,
+      `${route}/:id`,
       this.adaptRoute({ routeFunctionName: "DELETE", controller })
     );
 
