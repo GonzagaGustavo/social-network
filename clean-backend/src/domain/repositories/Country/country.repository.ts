@@ -6,7 +6,6 @@ export default class CountryRepository extends Repository<Country> {
   protected rowToObject(row: any, objects: Country[]): void {
     let obj = objects.find((u) => u.id === +row.c_id);
     if (!obj) {
-      console.log(row);
       obj = new Country({ id: +row.c_id, name: row.c_name, abbr: row.c_abbr });
       objects.push(obj);
     }
@@ -50,17 +49,18 @@ export default class CountryRepository extends Repository<Country> {
   }
 
   protected getConfig(): ServerConfig<Country> {
-    return {
-      empty: new Country({ name: "", abbr: "" }),
+    const select = {
       table: "country",
       alias: "c",
+      // prettier-ignore
       columns: [
-        "c.id       AS c_id",
-        "c.name     AS c_name",
-        "c.abbr     AS c_abbr",
+        'c.id         AS c_id', 
+        'c.name       AS c_name', 
+        'c.abbr       AS c_abbr',
       ],
       searchColumns: ["c.id", "c.name", "c.abbr"],
       joins: [],
+      where: "",
       order: "sort",
       orderOptions: {
         sort: ["c.sort DESC"],
@@ -73,5 +73,11 @@ export default class CountryRepository extends Repository<Country> {
         joins: [],
       },
     };
+
+    const config: ServerConfig<Country> = {
+      ...select,
+    };
+
+    return config;
   }
 }

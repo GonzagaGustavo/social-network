@@ -31,7 +31,9 @@ export default class CountryController extends Controller<CountryUseCase> {
       };
 
       const countrys = await this.useCase.read(input);
-      return this.res.ok(countrys);
+      return this.res.ok(
+        countrys.map((country) => this.res.removeUnderline(country))
+      );
     } catch (err) {
       return this.res.badRequest(err);
     }

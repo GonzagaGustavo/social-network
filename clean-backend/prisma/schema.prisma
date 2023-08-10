@@ -6,20 +6,23 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Country {
-  id      Int      @id @default(autoincrement()) @db.Int()
+  id      Int      @id @default(autoincrement()) @db.Integer
   name    String   @db.Text()
   abbr    String   @db.VarChar(3)
-  sort    Int      @default(0) @db.Int
-  created DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.DateTime
+  sort    Int      @default(0) @db.Integer
+  created DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamptz()
+
+  @@map("country")
 }
 
 model User {
-  id            Int           @id @default(autoincrement()) @db.Int()
+  id            Int           @id @default(autoincrement()) @db.Integer
   name          String        @db.VarChar(150)
   email         String        @unique @db.VarChar(200)
   password      String        @db.VarChar(100)
@@ -31,7 +34,7 @@ model User {
   country       String        @default("") @db.VarChar(80)
   estate        String        @default("") @db.VarChar(100)
   city          String        @default("") @db.VarChar(100)
-  created       DateTime      @default(dbgenerated("CURRENT_TIMESTAMP")) @db.DateTime
+  created       DateTime      @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamptz()
   refresh_token RefreshToken?
   post          Post[]
   likes         Likes[]
@@ -49,24 +52,26 @@ model RefreshToken {
 }
 
 model Post {
-  id          Int      @id @default(autoincrement()) @db.Int()
+  id          Int      @id @default(autoincrement()) @db.Integer
   autor       User     @relation(fields: [autor_id], references: [id])
   autor_id    Int
   type        String   @db.VarChar(50)
   file        String?  @default(dbgenerated("NULL")) @db.VarChar(150)
   title       String   @db.VarChar(200)
   description String   @db.Text()
-  created     DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.DateTime
-  favorites   Int      @default(0) @db.Int()
-  deslikes    Int      @default(0) @db.Int()
-  shares      Int      @default(0) @db.Int()
+  created     DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamptz()
+  favorites   Int      @default(0) @db.Integer
+  deslikes    Int      @default(0) @db.Integer
+  shares      Int      @default(0) @db.Integer
   video       Video?   @relation(fields: [video_id], references: [id])
-  video_id    Int?     @unique @default(dbgenerated("NULL")) @db.Int
+  video_id    Int?     @unique @default(dbgenerated("NULL")) @db.Integer
   likes       Likes[]
+
+  @@map("post")
 }
 
 model Video {
-  id     Int     @id @default(autoincrement()) @db.Int()
+  id     Int     @id @default(autoincrement()) @db.Integer
   thumb  String  @db.VarChar(150)
   v1080p String? @default(dbgenerated("NULL")) @db.VarChar(150)
   v720p  String? @default(dbgenerated("NULL")) @db.VarChar(150)
@@ -74,6 +79,8 @@ model Video {
   v144p  String? @default(dbgenerated("NULL")) @db.VarChar(150)
 
   post Post?
+
+  @@map("video")
 }
 
 model Likes {
@@ -82,4 +89,6 @@ model Likes {
   user    User   @relation(fields: [user_id], references: [id])
   user_id Int
   post_id Int
+
+  @@map("likes")
 }

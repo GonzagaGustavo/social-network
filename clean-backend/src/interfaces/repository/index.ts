@@ -27,13 +27,13 @@ export type ServerConfig<T> = {
   columns: any[]; // ok
   searchColumns: string[]; // ok
   joins: string[]; // ok
+  where: string;
   order: any; // ok
   orderOptions: {};
   extra: {
     columns: string[];
     joins: string[];
   };
-  empty: T;
 };
 
 export default abstract class Repository<Entity> {
@@ -62,7 +62,8 @@ export default abstract class Repository<Entity> {
     console.log(sql);
 
     const rows = await orm.$queryRawUnsafe<any>(sql);
-    return this._rowsToObjects(rows);
+    const objects = this._rowsToObjects(rows);
+    return objects;
   }
 
   public async getById(id: number): Promise<Entity> {

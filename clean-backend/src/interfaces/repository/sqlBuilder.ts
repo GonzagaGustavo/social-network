@@ -42,21 +42,22 @@ export default class SqlBuilder<Entity> {
 
   paginate(config: ServerConfig<Entity>, filter: Filter) {
     console.log({ filter });
-    const limit = filter.limit;
-    const offset = limit * (filter.page - 1);
-    const EXTRA_WHERE = filter.where ? filter.where : "";
-    const where = `CONCAT_WS(' ', ${config.searchColumns.join(
+    const LIMIT = filter.limit;
+    const OFFSET = LIMIT * (filter.page - 1);
+    const CONFIG_WHERE = config.where ? config.where : "true";
+    const FILTER_WHERE = filter.where ? filter.where : "";
+    const WHERE = `CONCAT_WS(' ', ${config.searchColumns.join(
       ","
     )}) ILIKE ALL (string_to_array('${filter.search
       .split(" ")
       .map((s) => `%${s}%`) // SQL Injection Alert!
-      .join(",")}', ',')) ${EXTRA_WHERE}`;
+      .join(",")}', ',')) ${FILTER_WHERE} AND ${CONFIG_WHERE}`;
 
-    const columns = config.columns.join(",");
-    const joins = config.joins.join(" ");
+    const COLUMNS = config.columns.join(",");
+    const JOINS = config.joins.join(" ");
 
-    const table = config.table;
-    const alias = config.alias;
+    const TABLE = config.table;
+    const ALIAS = config.alias;
 
     // order
     const hasFilterOrderKey = !!filter.order;
@@ -76,17 +77,17 @@ export default class SqlBuilder<Entity> {
         orderOption[0] = orderOption[0].replace(" DESC", "");
       }
     }
-    const order = orderOption.join(",");
+    const ORDER = orderOption.join(",");
 
     return this._select({
-      table,
-      alias,
-      columns,
-      joins,
-      where,
-      order,
-      limit,
-      offset,
+      table: TABLE,
+      alias: ALIAS,
+      columns: COLUMNS,
+      joins: JOINS,
+      where: WHERE,
+      order: ORDER,
+      limit: LIMIT,
+      offset: OFFSET,
     });
   }
 
