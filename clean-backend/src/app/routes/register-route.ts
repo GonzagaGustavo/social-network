@@ -1,8 +1,6 @@
 import { Request, Response, Router } from "express";
-import Controller, {
-  HttpRequest,
-  ResponseObject,
-} from "../../interfaces/controller";
+import Controller, { HttpRequest } from "../../interfaces/controller";
+import multer from "multer";
 
 type Params = {
   get?: object | null;
@@ -37,6 +35,7 @@ export default class RegisterRoute {
     );
     this.router.post(
       `${route}`,
+      multer().none(),
       this.adaptRoute({ routeFunctionName: "POST", controller })
     );
     this.router.put(
@@ -102,8 +101,6 @@ export default class RegisterRoute {
   private adaptRoute({ routeFunctionName, controller }: RouteFunction) {
     const _controller: any = controller;
     return async (req: Request, res: Response) => {
-      console.log(req.get("Content-Type"));
-      console.log(req.body);
       const httpRequest: HttpRequest = {
         body: req.body,
         params: req.params,
