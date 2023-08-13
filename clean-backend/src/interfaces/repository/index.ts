@@ -1,3 +1,5 @@
+import { storage } from "../../app/config/firebase";
+import { Bucket } from "@google-cloud/storage/build/src/bucket";
 import orm, { serializeSql } from "../../framework/database";
 import SqlBuilder from "./sqlBuilder";
 
@@ -37,9 +39,9 @@ export type ServerConfig<T> = {
 };
 
 export default abstract class Repository<Entity> {
-  private moduleKey: string;
   private entityKey: string;
   protected sqlBuilder: SqlBuilder<Entity>;
+  bucket: Bucket;
 
   protected abstract getConfig(): ServerConfig<Entity>;
   protected abstract rowToObject(row: any, objects: Entity[]): void;
@@ -48,9 +50,9 @@ export default abstract class Repository<Entity> {
   public abstract update(o: Entity): Promise<Entity>;
   public abstract remove(id: number): Promise<Entity>;
 
-  public constructor(module: string, entity: string) {
-    this.moduleKey = module;
+  public constructor(entity: string) {
     this.entityKey = entity;
+    this.bucket = storage.bucket(entity) as unknown as Bucket;
     this.sqlBuilder = new SqlBuilder();
   }
 

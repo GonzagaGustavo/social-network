@@ -4,7 +4,7 @@ import CountryRepository from "./country.repository";
 
 describe("country unit tests", () => {
   it("should create a country", async () => {
-    const repository = new CountryRepository("domain", "country");
+    const repository = new CountryRepository("country");
     const country = new Country({ name: "Brazil", abbr: "BR" });
 
     const created = await repository.create(country);

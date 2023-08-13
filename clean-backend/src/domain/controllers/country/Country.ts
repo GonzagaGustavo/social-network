@@ -15,7 +15,7 @@ export default class CountryController extends Controller<CountryUseCase> {
 
   constructor() {
     super();
-    const countryRepository = new CountryRepository("domain", "country");
+    const countryRepository = new CountryRepository("country");
     this.useCase = new CountryUseCase(countryRepository);
   }
 

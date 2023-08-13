@@ -102,6 +102,8 @@ export default class RegisterRoute {
   private adaptRoute({ routeFunctionName, controller }: RouteFunction) {
     const _controller: any = controller;
     return async (req: Request, res: Response) => {
+      console.log(req.get("Content-Type"));
+      console.log(req.body);
       const httpRequest: HttpRequest = {
         body: req.body,
         params: req.params,

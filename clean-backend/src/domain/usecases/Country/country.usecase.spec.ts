@@ -3,7 +3,7 @@ import CountryUseCase from "./country.usecase";
 
 describe("country use case unit tests", () => {
   it("shhould create a country", async () => {
-    const countryRepository = new CountryRepository("domain", "country");
+    const countryRepository = new CountryRepository("country");
     const countryUseCase = new CountryUseCase(countryRepository);
 
     const created = await countryUseCase.create({

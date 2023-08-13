@@ -1,5 +1,6 @@
 import InvalidParamError from "../../../interfaces/errors/invalid-param";
 import MissingParamError from "../../../interfaces/errors/missing-param";
+import { z } from "zod";
 
 interface CountryInput {
   id?: number;
@@ -29,7 +30,7 @@ export default class Country {
   }
 
   set id(id: number | undefined) {
-    this._id = id;
+    this._id = id ? z.number().parse(id) : id;
   }
 
   get name(): string {
@@ -37,6 +38,7 @@ export default class Country {
   }
 
   set name(name: string) {
+    if (!name) throw new MissingParamError("name");
     this._name = name;
   }
 
@@ -45,6 +47,7 @@ export default class Country {
   }
 
   set abbr(abbr: string) {
+    if (!abbr) throw new MissingParamError("abbr");
     if (abbr.length > 3) throw new InvalidParamError("abbr");
 
     this._abbr = abbr;
