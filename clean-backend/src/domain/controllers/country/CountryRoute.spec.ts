@@ -13,11 +13,12 @@ describe("E2E country entity test", () => {
       formData.append(key, input[key]);
     }
 
-    // const response = await request(app)
-    //   .post("/api/country")
-    //   .set("Content-Type", "multipart/form-data")
-    //   .send(formData);
+    const response = await request(app)
+      .post("/api/country")
+      .set("Content-Type", "multipart/form-data")
+      .field("name", "Germany")
+      .field("abbr", "GE");
 
-    expect(200).toBe(200);
+    expect(response.status).toBe(200);
   });
 });
