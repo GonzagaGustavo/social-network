@@ -1,3 +1,4 @@
+import MissingParamError from "../../../interfaces/errors/missing-param";
 import Country from "../../entities/Country/Country";
 import CountryRepository from "../../repositories/Country/country.repository";
 import {
@@ -34,6 +35,7 @@ export default class CountryUseCase {
   }
 
   async remove(id: number): Promise<Country> {
+    if (!id) throw new MissingParamError("id");
     return await this.countryRepository.remove(id);
   }
 }

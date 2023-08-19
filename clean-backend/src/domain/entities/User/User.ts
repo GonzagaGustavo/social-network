@@ -4,15 +4,15 @@ import MissingParamError from "../../../interfaces/errors/missing-param";
 type UserInput = {
   name: string;
   email: string;
-  password: string;
+  password?: string;
   username: string;
   phone?: string;
   bio: string;
   gender: string;
   birthday: Date;
-  country: string;
-  estate: string;
-  city: string;
+  country?: string;
+  estate?: string;
+  city?: string;
   created?: Date;
   id?: number;
 };
@@ -27,9 +27,9 @@ export default class User {
   _bio: string;
   _gender: string;
   _birthday: Date;
-  _country: string;
-  _estate: string;
-  _city: string;
+  _country?: string;
+  _estate?: string;
+  _city?: string;
   _created?: Date;
 
   constructor({
@@ -113,7 +113,6 @@ export default class User {
   }
 
   set password(password: string) {
-    if (!password) throw new MissingParamError("password");
     this._password = password;
   }
 
@@ -171,35 +170,38 @@ export default class User {
     this._birthday = birthday;
   }
 
-  get country(): string {
+  get country(): string | undefined {
     return this._country;
   }
 
-  set country(country: string) {
-    if (!country) throw new MissingParamError("country");
-    if (country.length > 80) throw new InvalidParamError("country");
+  set country(country: string | undefined) {
+    if (country) {
+      if (country.length > 80) throw new InvalidParamError("country");
+    }
 
     this._country = country;
   }
 
-  get estate(): string {
+  get estate(): string | undefined {
     return this._estate;
   }
 
-  set estate(estate: string) {
-    if (!estate) throw new MissingParamError("estate");
-    if (estate.length > 100) throw new InvalidParamError("estate");
+  set estate(estate: string | undefined) {
+    if (estate) {
+      if (estate.length > 100) throw new InvalidParamError("estate");
+    }
 
     this._estate = estate;
   }
 
-  get city(): string {
+  get city(): string | undefined {
     return this._city;
   }
 
-  set city(city: string) {
-    if (!city) throw new MissingParamError("city");
-    if (city.length > 100) throw new InvalidParamError("city");
+  set city(city: string | undefined) {
+    if (city) {
+      if (city.length > 100) throw new InvalidParamError("city");
+    }
 
     this._city = city;
   }
