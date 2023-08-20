@@ -82,11 +82,11 @@ export default class UserRepository extends Repository<User> {
 
   protected getConfig(): ServerConfig<User> {
     const select: ServerConfig<User> = {
-      table: "user",
+      table: "public.user",
       alias: "u",
       // prettier-ignore
       columns: [
-        'u.id         AS u_id', 
+        'u.id         AS u_id',
         'u.username   AS u_username',
         'u.name       AS u_name',
         'u.email      AS u_email',
@@ -98,8 +98,13 @@ export default class UserRepository extends Repository<User> {
       searchColumns: ["u.id", "u.name", "u.username", "u.email"],
       joins: [],
       where: "",
-      order: "",
-      orderOptions: {},
+      order: "id",
+      orderOptions: {
+        id: [],
+        name: ["u.name"],
+        username: ["u.username", "u.name"],
+        email: ["u.email"],
+      },
       extra: {
         columns: [],
         joins: [],

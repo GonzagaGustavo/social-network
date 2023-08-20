@@ -1,4 +1,5 @@
 import { Filter } from "../../../interfaces/repository";
+import User from "../../entities/User/User";
 
 export interface CreateUserInput {
   username: string;
@@ -23,4 +24,15 @@ export interface UpdateUserInput {
   phone: string;
   password: string;
 }
+export interface UserOutput {
+  id?: number;
+  username: string;
+  name: string;
+  email: string;
+  bio: string;
+  gender: string;
+  birthday: string;
+  created?: string;
+}
+
 export interface ReadUserInput extends Filter {}

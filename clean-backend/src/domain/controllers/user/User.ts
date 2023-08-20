@@ -27,8 +27,9 @@ export default class UserController extends Controller<UserUseCase> {
         more: Boolean(httpRequest.query.more),
       };
 
-      const Users = await this.useCase.read(input);
-      return this.res.ok(Users.map((User) => this.res.removeUnderline(User)));
+      const users = await this.useCase.read(input);
+
+      return this.res.ok(users.map((user) => this.res.removeUnderline(user)));
     } catch (err) {
       return this.res.badRequest(err);
     }
@@ -46,9 +47,9 @@ export default class UserController extends Controller<UserUseCase> {
         gender: httpRequest.body.gender,
       };
 
-      const User = await this.useCase.create(input);
+      const user = await this.useCase.create(input);
 
-      return this.res.ok(User);
+      return this.res.ok(user);
     } catch (err) {
       console.error(err);
       return this.res.badRequest(err);
