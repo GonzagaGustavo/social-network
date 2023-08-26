@@ -57,37 +57,45 @@ export default class UserController extends Controller<UserUseCase> {
   }
 
   async PUT(httpRequest: HttpRequest): Promise<ResponseObject> {
-    try {
-      const input: UpdateUserInput = {
-        id: httpRequest.body.id,
-        username: httpRequest.body.username,
-        name: httpRequest.body.name,
-        email: httpRequest.body.email,
-        password: httpRequest.body.password,
-        bio: httpRequest.body.bio,
-        birthday: httpRequest.body.birthday,
-        gender: httpRequest.body.gender,
-        phone: httpRequest.body.phone,
-        country: httpRequest.body.country,
-        estate: httpRequest.body.estate,
-        city: httpRequest.body.city,
-      };
+    if (httpRequest.user && httpRequest.user.id === +httpRequest.params.id) {
+      try {
+        const input: UpdateUserInput = {
+          id: httpRequest.body.id,
+          username: httpRequest.body.username,
+          name: httpRequest.body.name,
+          email: httpRequest.body.email,
+          password: httpRequest.body.password,
+          bio: httpRequest.body.bio,
+          birthday: httpRequest.body.birthday,
+          gender: httpRequest.body.gender,
+          phone: httpRequest.body.phone,
+          country: httpRequest.body.country,
+          estate: httpRequest.body.estate,
+          city: httpRequest.body.city,
+        };
 
-      const output = await this.useCase.update(input);
+        const output = await this.useCase.update(input);
 
-      return this.res.ok(output);
-    } catch (err) {
-      return this.res.badRequest(err);
+        return this.res.ok(output);
+      } catch (err) {
+        return this.res.badRequest(err);
+      }
+    } else {
+      return this.res.unauthorizedError();
     }
   }
 
   async DELETE(httpRequest: HttpRequest): Promise<ResponseObject> {
-    try {
-      const deleted = await this.useCase.remove(+httpRequest.params.id);
+    if (httpRequest.user && httpRequest.user.id === +httpRequest.params.id) {
+      try {
+        const deleted = await this.useCase.remove(+httpRequest.params.id);
 
-      return this.res.ok(deleted);
-    } catch (err) {
-      return this.res.badRequest(err);
+        return this.res.ok(deleted);
+      } catch (err) {
+        return this.res.badRequest(err);
+      }
+    } else {
+      return this.res.unauthorizedError();
     }
   }
 }

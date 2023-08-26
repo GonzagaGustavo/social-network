@@ -35,7 +35,7 @@ export default class RegisterRoute {
     );
     this.router.post(
       `${route}`,
-      multer().none(),
+      multer().array("file"),
       this.adaptRoute({ routeFunctionName: "POST", controller })
     );
     this.router.put(
