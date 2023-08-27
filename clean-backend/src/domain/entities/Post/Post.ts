@@ -2,11 +2,13 @@ import InvalidParamError from "../../../interfaces/errors/invalid-param";
 import MissingParamError from "../../../interfaces/errors/missing-param";
 import { z } from "zod";
 import User from "../User/User";
+import Likes from "../Likes/Likes";
+import Video from "../Video/Video";
 
 interface PostInput {
   id?: number;
-  autor: User;
-  autor_id: number;
+  autor?: User;
+  autor_id?: number;
   type: string;
   file?: string;
   title: string;
@@ -14,14 +16,16 @@ interface PostInput {
   deslikes?: number;
   favorites?: number;
   shares?: number;
+  likes?: Likes[];
   video_id?: number;
+  video?: Video;
   created?: Date;
 }
 
 export default class Post {
   _id?: number;
   _autor: User;
-  _autor_id: number;
+  _autor_id?: number;
   _type: string;
   _file?: string;
   _title: string;
@@ -29,7 +33,9 @@ export default class Post {
   _deslikes: number = 0;
   _favorites: number = 0;
   _shares: number = 0;
+  _likes: Likes[] = [];
   _video_id?: number;
+  _video?: Video;
   _created?: Date;
 
   constructor({
@@ -43,7 +49,9 @@ export default class Post {
     deslikes,
     favorites,
     shares,
+    likes,
     video_id,
+    video,
     created,
   }: PostInput) {
     this.id = id;
@@ -56,7 +64,9 @@ export default class Post {
     this.deslikes = deslikes;
     this.favorites = favorites;
     this.shares = shares;
+    this.likes = likes;
     this.video_id = video_id;
+    this.video = video;
     this.created = created;
   }
 
@@ -73,18 +83,18 @@ export default class Post {
   }
 
   set autor(autor: User) {
-    if (!autor.id) throw new MissingParamError("autor");
+    if (!autor.username) throw new MissingParamError("autor");
 
     this._autor = autor;
   }
 
-  get autor_id(): number {
+  get autor_id(): number | undefined {
     return this._autor_id;
   }
 
-  set autor_id(autor_id: number) {
-    if (!autor_id) throw new MissingParamError("autor_id");
-    this._autor_id = z.number().parse(autor_id);
+  set autor_id(autor_id: number | undefined) {
+    // if (!autor_id) throw new MissingParamError("autor_id");
+    this._autor_id = autor_id ? z.number().parse(autor_id) : autor_id;
   }
 
   get type(): string {
@@ -160,12 +170,30 @@ export default class Post {
     }
   }
 
+  get likes(): Likes[] {
+    return this._likes;
+  }
+
+  set likes(likes: Likes[] | undefined) {
+    if (likes) {
+      this._likes = likes;
+    }
+  }
+
   get video_id(): number | undefined {
     return this._video_id;
   }
 
   set video_id(video_id: number | undefined) {
     this._video_id = video_id;
+  }
+
+  get video(): Video {
+    return this._video;
+  }
+
+  set video(video: Video) {
+    this._video = video;
   }
 
   get created(): Date {

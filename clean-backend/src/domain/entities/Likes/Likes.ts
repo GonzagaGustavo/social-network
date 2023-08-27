@@ -1,4 +1,3 @@
-import InvalidParamError from "../../../interfaces/errors/invalid-param";
 import MissingParamError from "../../../interfaces/errors/missing-param";
 import { z } from "zod";
 import Post from "../Post/Post";
@@ -6,25 +5,28 @@ import User from "../User/User";
 
 interface LikesInput {
   id?: string;
-  post: Post;
-  user: User;
+  post?: Post;
+  user?: User;
   user_id: number;
   post_id: number;
+  created?: Date;
 }
 
 export default class Likes {
   _id?: string;
-  _post: Post;
-  _user: User;
+  _post?: Post;
+  _user?: User;
   _user_id: number;
   _post_id: number;
+  _created?: Date;
 
-  constructor({ id, post, user, post_id, user_id }: LikesInput) {
+  constructor({ id, post, user, post_id, user_id, created }: LikesInput) {
     this.id = id;
     this.post = post;
     this.user = user;
     this.post_id = post_id;
     this.user_id = user_id;
+    this.created = created;
   }
 
   get id(): string | undefined {
@@ -35,32 +37,38 @@ export default class Likes {
     this._id = id ? z.string().parse(id) : id;
   }
 
-  get name(): string {
-    return this._name;
+  get post_id(): number {
+    return this._post_id;
   }
 
-  set name(name: string) {
-    if (!name) throw new MissingParamError("name");
-    this._name = name;
+  set post_id(post_id: number) {
+    if (!post_id) throw new MissingParamError("post_id");
+    this._post_id = z.number().parse(post_id);
   }
 
-  get abbr(): string {
-    return this._abbr;
+  get user_id(): number {
+    return this._user_id;
   }
 
-  set abbr(abbr: string) {
-    if (!abbr) throw new MissingParamError("abbr");
-    if (abbr.length > 3) throw new InvalidParamError("abbr");
-
-    this._abbr = abbr;
+  set user_id(user_id: number) {
+    if (!user_id) throw new MissingParamError("user_id");
+    this._user_id = z.number().parse(user_id);
   }
 
-  get sort(): number {
-    return this._sort;
+  get user(): User {
+    return this._user;
   }
 
-  set sort(sort: number | undefined) {
-    this._sort = sort;
+  set user(user: User | undefined) {
+    this._user = user;
+  }
+
+  get post(): Post {
+    return this._post;
+  }
+
+  set post(post: Post | undefined) {
+    this._post = post;
   }
 
   get created(): Date {

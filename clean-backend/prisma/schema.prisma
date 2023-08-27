@@ -84,11 +84,12 @@ model Video {
 }
 
 model Likes {
-  id      String @id @default(uuid())
-  post    Post   @relation(fields: [post_id], references: [id])
-  user    User   @relation(fields: [user_id], references: [id])
+  id      String   @id @default(uuid())
+  post    Post     @relation(fields: [post_id], references: [id])
+  user    User     @relation(fields: [user_id], references: [id])
   user_id Int
   post_id Int
+  created DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamptz()
 
   @@map("likes")
 }

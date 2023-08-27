@@ -25,6 +25,8 @@ export default class UserRepository extends Repository<User> {
 
   public async create(o: User): Promise<User> {
     if (!o.password) throw new MissingParamError("password");
+    if (!o.email) throw new MissingParamError("email");
+    if (!o.birthday) throw new MissingParamError("birthday");
     if (o.password.length < 8) throw new InvalidParamError("passoword");
 
     const created = await orm.user.create({

@@ -3,13 +3,13 @@ import MissingParamError from "../../../interfaces/errors/missing-param";
 
 type UserInput = {
   name: string;
-  email: string;
+  email?: string;
   password?: string;
   username: string;
   phone?: string;
   bio: string;
-  gender: string;
-  birthday: Date;
+  gender?: string;
+  birthday?: Date;
   country?: string;
   estate?: string;
   city?: string;
@@ -20,13 +20,13 @@ type UserInput = {
 export default class User {
   _id?: number;
   _name: string;
-  _email: string;
+  _email?: string;
   _password: string;
   _username: string;
   _phone?: string;
   _bio: string;
-  _gender: string;
-  _birthday: Date;
+  _gender?: string;
+  _birthday?: Date;
   _country?: string;
   _estate?: string;
   _city?: string;
@@ -102,8 +102,10 @@ export default class User {
     return this._email;
   }
 
-  set email(email: string) {
-    if (!this.validEmail(email)) throw new InvalidParamError("email");
+  set email(email: string | undefined) {
+    if (email) {
+      if (!this.validEmail(email)) throw new InvalidParamError("email");
+    }
 
     this._email = email;
   }
@@ -149,24 +151,21 @@ export default class User {
     this._bio = bio;
   }
 
-  get gender(): string {
+  get gender(): string | undefined {
     return this._gender;
   }
 
-  set gender(gender: string) {
-    if (!gender) throw new MissingParamError("gender");
+  set gender(gender: string | undefined) {
     if (gender.length > 50) throw new InvalidParamError("gender");
 
     this._gender = gender;
   }
 
-  get birthday(): Date {
+  get birthday(): Date | undefined {
     return this._birthday;
   }
 
-  set birthday(birthday: Date) {
-    if (!birthday) throw new MissingParamError("birthday");
-
+  set birthday(birthday: Date | undefined) {
     this._birthday = birthday;
   }
 
