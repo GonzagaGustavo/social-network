@@ -1,24 +1,24 @@
 # Social Network
 
-## Instalar pnpm
+## Install pnpm
 `npm install -g pnpm`
 
-## Instalar yarn
+## Install yarn
 `npm install -g yarn`
 
-- Comando npm já vem com nodejs
+- npm command already comes with nodejs
 
-## Rodar backend
+## Run backend
 `pnpm install`<br />
 <br />
 `pnpm dev`
 
-## Rodar frontend
+## Run frontend
 `pnpm install`<br />
 <br />
 `pnpm dev`
 
-## Rodar mobile
+## Run mobile
 `yarn`<br />
 <br />
 `yarn start`
