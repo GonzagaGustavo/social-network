@@ -4,9 +4,6 @@ import multer from "multer";
 
 type Params = {
   get?: object | null;
-  post?: object | null;
-  put?: object | null;
-  delete?: object | null;
 } | null;
 
 type RegisterRouteInput = {
@@ -59,43 +56,33 @@ export default class RegisterRoute {
           );
         });
       }
-
-      if (params.post) {
-        Object.keys(params.post).forEach((paramName) => {
-          this.router.post(
-            `${route}/:${paramName}`,
-            this.adaptRoute({
-              routeFunctionName: `${paramName}POST`,
-              controller,
-            })
-          );
-        });
-      }
-
-      if (params.put) {
-        Object.keys(params.put).forEach((paramName) => {
-          this.router.put(
-            `${route}/:${paramName}`,
-            this.adaptRoute({
-              routeFunctionName: `${paramName}PUT`,
-              controller,
-            })
-          );
-        });
-      }
-
-      if (params.delete) {
-        Object.keys(params.delete).forEach((paramName) => {
-          this.router.delete(
-            `${route}/:${paramName}`,
-            this.adaptRoute({
-              routeFunctionName: `${paramName}DELETE`,
-              controller,
-            })
-          );
-        });
-      }
     }
+
+    const controllerFunctions = Object.getOwnPropertyNames(
+      Object.getPrototypeOf(controller)
+    );
+    const routes = controllerFunctions.filter(
+      (functionName) =>
+        functionName.substring(functionName.length - 5, functionName.length) ===
+        "Route"
+    );
+
+    const methods = ["GET", "POST", "PUT", "DELETE"];
+
+    routes.forEach((pRoute) => {
+      const method = methods.find((word) => pRoute.indexOf(word) > -1);
+      const secondRoute = pRoute.substring(0, pRoute.indexOf(method));
+
+      if (method) {
+        this.router[method.toLowerCase()](
+          `${route}/${secondRoute}`,
+          this.adaptRoute({
+            routeFunctionName: secondRoute + method + "Route",
+            controller,
+          })
+        );
+      }
+    });
   }
 
   private adaptRoute({ routeFunctionName, controller }: RouteFunction) {

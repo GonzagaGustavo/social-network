@@ -98,4 +98,8 @@ export default class UserController extends Controller<UserUseCase> {
       return this.res.unauthorizedError();
     }
   }
+
+  async loginGETRoute(httpRequest: HttpRequest): Promise<ResponseObject> {
+    return this.res.ok({ name: "Gustavo Gonzaga" });
+  }
 }
