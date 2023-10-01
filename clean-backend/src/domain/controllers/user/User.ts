@@ -4,16 +4,18 @@ import Controller, {
 } from "../../../interfaces/controller";
 import { Filter, initialFilter } from "../../../interfaces/repository";
 import UserRepository from "../../repositories/User/user.repository";
+import LoginUseCase from "../../usecases/User/login.usecase";
 import { CreateUserInput, UpdateUserInput } from "../../usecases/User/user.dto";
 import UserUseCase from "../../usecases/User/user.usecase";
 
 export default class UserController extends Controller<UserUseCase> {
+  repository: UserRepository;
   useCase: UserUseCase;
 
   constructor() {
     super();
-    const userRepository = new UserRepository("user");
-    this.useCase = new UserUseCase(userRepository);
+    this.repository = new UserRepository("user");
+    this.useCase = new UserUseCase(this.repository);
   }
 
   async GET(httpRequest: HttpRequest): Promise<ResponseObject> {
@@ -99,7 +101,9 @@ export default class UserController extends Controller<UserUseCase> {
     }
   }
 
-  async loginGETRoute(httpRequest: HttpRequest): Promise<ResponseObject> {
-    return this.res.ok({ name: "Gustavo Gonzaga" });
+  async loginPOSTRoute(httpRequest: HttpRequest): Promise<ResponseObject> {
+    const useCase = new LoginUseCase(this.repository);
+    const res = await useCase.execute(httpRequest.body);
+    return this.res.ok(res);
   }
 }

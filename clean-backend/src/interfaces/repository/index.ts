@@ -48,7 +48,7 @@ export default abstract class Repository<Entity> {
 
   public abstract create(o: Entity): Promise<Entity>;
   public abstract update(o: Entity): Promise<Entity>;
-  public abstract remove(id: number): Promise<Entity>;
+  public abstract remove(id: number | string): Promise<Entity>;
 
   public constructor(entity: string) {
     this.entityKey = entity;

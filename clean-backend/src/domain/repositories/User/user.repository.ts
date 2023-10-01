@@ -14,6 +14,7 @@ export default class UserRepository extends Repository<User> {
         name: row.u_name,
         username: row.u_username,
         email: row.u_email,
+        password: row.u_password,
         bio: row.u_bio,
         gender: row.u_gender,
         birthday: row.u_birthday,
@@ -27,7 +28,7 @@ export default class UserRepository extends Repository<User> {
     if (!o.password) throw new MissingParamError("password");
     if (!o.email) throw new MissingParamError("email");
     if (!o.birthday) throw new MissingParamError("birthday");
-    if (o.password.length < 8) throw new InvalidParamError("passoword");
+    if (o.password.length < 8) throw new InvalidParamError("password");
 
     const created = await orm.user.create({
       data: {
@@ -92,6 +93,7 @@ export default class UserRepository extends Repository<User> {
         'u.username   AS u_username',
         'u.name       AS u_name',
         'u.email      AS u_email',
+        'u.password   AS u_password',
         'u.bio        AS u_bio',
         'u.gender     AS u_gender',
         'u.birthday   AS u_birthday',
