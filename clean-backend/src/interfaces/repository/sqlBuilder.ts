@@ -91,8 +91,8 @@ export default class SqlBuilder<Entity> {
     });
   }
 
-  getById(config: ServerConfig<Entity>, id: number) {
-    const safeId = +id;
+  getById(config: ServerConfig<Entity>, id: number | string) {
+    const safeId = id;
     const limit = 1;
     const offset = 0;
     const where = `${config.alias}.id=${safeId}`;

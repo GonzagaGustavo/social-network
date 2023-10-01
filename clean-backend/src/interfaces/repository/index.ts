@@ -68,7 +68,7 @@ export default abstract class Repository<Entity> {
     return objects;
   }
 
-  public async getById(id: number): Promise<Entity> {
+  public async getById(id: number | string): Promise<Entity> {
     console.log("AbstractRepository getById()", id);
     const config = this.getConfig();
 
