@@ -100,10 +100,4 @@ export default class UserController extends Controller<UserUseCase> {
       return this.res.unauthorizedError();
     }
   }
-
-  async loginPOSTRoute(httpRequest: HttpRequest): Promise<ResponseObject> {
-    const useCase = new LoginUseCase(this.repository);
-    const res = await useCase.execute(httpRequest.body);
-    return this.res.ok(res);
-  }
 }
