@@ -22,7 +22,7 @@ export default abstract class Controller<UseCase> {
     badRequest(error: Error): ResponseObject {
       return {
         statusCode: 400,
-        body: error,
+        body: error.toString(),
       };
     },
 

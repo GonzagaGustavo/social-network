@@ -2,9 +2,8 @@ import Controller, {
   HttpRequest,
   ResponseObject,
 } from "../../../interfaces/controller";
-import { Filter, initialFilter } from "../../../interfaces/repository";
+import { Filter } from "../../../interfaces/repository";
 import UserRepository from "../../repositories/User/user.repository";
-import LoginUseCase from "../../usecases/User/login.usecase";
 import { CreateUserInput, UpdateUserInput } from "../../usecases/User/user.dto";
 import UserUseCase from "../../usecases/User/user.usecase";
 

@@ -33,6 +33,7 @@ export default class AuthenticationController extends Controller<JwtUseCase> {
       const res = await useCase.execute(httpRequest.body);
       return this.res.ok(res);
     } catch (err) {
+      console.error(err);
       return this.res.badRequest(err);
     }
   }

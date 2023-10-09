@@ -13,7 +13,9 @@ async function login(credentials: {
   email: string;
   password: string;
 }): Promise<any> {
-  return await apiPost("/user/login", credentials);
+  const response = await apiPost("/authentication", credentials);
+
+  return response;
 }
 
 async function refreshAccessToken(refreshToken: {
@@ -54,7 +56,7 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, req) {
         console.log("authorize");
         const response = await login(credentials!);
-
+        console.log(response);
         if (response.status === 201) {
           throw new Error(
             response.data.err.password || response.data.err.email
@@ -84,12 +86,13 @@ export const authOptions: AuthOptions = {
           userId: number;
         }) || user.refreshToken;
 
-      console.log(refreshToken.expiresIn * 1000);
-      if (Date.now() < refreshToken.expiresIn * 1000) {
-        return token;
-      }
+      // console.log(refreshToken.expiresIn * 1000);
+      // if (Date.now() < refreshToken.expiresIn * 1000) {
+      //   return token;
+      // }
 
-      return await refreshAccessToken(refreshToken);
+      // return await refreshAccessToken(refreshToken);
+      return token;
     },
     async session({ session, token }) {
       if (token.err) return session;

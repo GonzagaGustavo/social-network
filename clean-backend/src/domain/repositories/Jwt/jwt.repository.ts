@@ -40,14 +40,14 @@ export default class JwtRepository extends Repository<Jwt> {
     return new Jwt(updated);
   }
 
-  public async remove(id: number): Promise<Jwt> {
-    const deleted = await orm.refreshToken.delete({
+  public async remove(id: number): Promise<any> {
+    const deleted = await orm.refreshToken.deleteMany({
       where: {
         userId: id,
       },
     });
 
-    return new Jwt(deleted);
+    return deleted;
   }
 
   protected getConfig(): ServerConfig<Jwt> {

@@ -1,10 +1,15 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
-export const api = "http://localhost:3001";
+export const api = "http://localhost:3001/api";
 export const apiPost = async (path: string, body: any) => {
-  const response = await axios.post(api + path, body);
+  try {
+    const response = await axios.post(api + path, body);
 
-  return response;
+    return response;
+  } catch (err: any) {
+    console.log(err.response);
+    return err;
+  }
 };
 export const secureApiPost = async (path: string, body: any, token: string) => {
   const response = await axios.post(api + path, body, {
