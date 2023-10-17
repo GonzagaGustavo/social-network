@@ -24,6 +24,10 @@
   padding: 10px 12px;
   font-size: medium;
   border-radius: 4px;
+  // background: #e0e0e0;
+  background: var(--primary);
+  color: white;
+  font-weight: 400;
 
   &:hover {
     cursor: pointer;

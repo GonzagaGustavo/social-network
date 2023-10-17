@@ -12,6 +12,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        primary: "#45578d",
         dialogBg: "#00000085",
       },
       spacing: {

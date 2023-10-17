@@ -13,7 +13,9 @@ export default function SelectFile({
         <TbUpload />
       </div>
 
-      <h1>Faça o upload de um video ou foto...</h1>
+      <h1 className="text-xl font-medium">
+        Faça o upload de um video ou foto...
+      </h1>
 
       {children}
     </div>

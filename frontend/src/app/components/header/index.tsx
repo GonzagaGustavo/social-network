@@ -3,6 +3,7 @@ import styles from "./header.module.css";
 import Image from "next/image";
 import { CiUser, CiCirclePlus } from "react-icons/ci";
 import Link from "next/link";
+import UserMenu from "./userMenu";
 
 export default function Header() {
   return (
@@ -27,9 +28,7 @@ export default function Header() {
             <CiCirclePlus className={styles.userIcon} />
           </Link>
 
-          <div className={styles.iconsWrapper}>
-            <CiUser className={styles.userIcon} />
-          </div>
+          <UserMenu />
         </div>
       </div>
     </nav>
