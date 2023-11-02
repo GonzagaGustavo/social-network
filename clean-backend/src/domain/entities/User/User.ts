@@ -156,7 +156,9 @@ export default class User {
   }
 
   set gender(gender: string | undefined) {
-    if (gender.length > 50) throw new InvalidParamError("gender");
+    if (gender) {
+      if (gender.length > 50) throw new InvalidParamError("gender");
+    }
 
     this._gender = gender;
   }

@@ -24,7 +24,7 @@ interface PostInput {
 
 export default class Post {
   _id?: number;
-  _autor: User;
+  _autor?: User;
   _autor_id?: number;
   _type: string;
   _file?: string;
@@ -78,13 +78,11 @@ export default class Post {
     this._id = id ? z.number().parse(id) : id;
   }
 
-  get autor(): User {
+  get autor(): User | undefined {
     return this._autor;
   }
 
-  set autor(autor: User) {
-    if (!autor.username) throw new MissingParamError("autor");
-
+  set autor(autor: User | undefined) {
     this._autor = autor;
   }
 
@@ -188,11 +186,11 @@ export default class Post {
     this._video_id = video_id;
   }
 
-  get video(): Video {
+  get video(): Video | undefined {
     return this._video;
   }
 
-  set video(video: Video) {
+  set video(video: Video | undefined) {
     this._video = video;
   }
 

@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        domains: ['storage.googleapis.com']
-    }
+  images: {
+    remotePatterns: [{ hostname: "storage.googleapis.com", protocol: "https" }],
+  },
 };
 
 module.exports = nextConfig;

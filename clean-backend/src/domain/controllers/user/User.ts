@@ -50,7 +50,7 @@ export default class UserController extends Controller<UserUseCase> {
 
       const user = await this.useCase.create(input);
 
-      return this.res.ok(user);
+      return this.res.ok({ success: true });
     } catch (err) {
       console.error(err);
       return this.res.badRequest(err);

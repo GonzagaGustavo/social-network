@@ -46,11 +46,36 @@ export default class PostRepository extends Repository<Post> {
         title: o.title,
         description: o.description,
         type: o.type,
-        video_id: o.video_id,
+        video_id: 0,
+      },
+      select: {
+        id: true,
+        autor_id: true,
+        type: true,
+        file: true,
+        title: true,
+        description: true,
+        created: true,
+        favorites: true,
+        deslikes: true,
+        shares: true,
+        video_id: true,
+        video: true,
+        autor: {
+          select: {
+            username: true,
+            name: true,
+            bio: true,
+          },
+        },
       },
     });
 
-    return new Post(created);
+    return new Post({
+      ...created,
+      autor: new User(created.autor),
+      video: new Video(created.video),
+    });
   }
 
   public async update(o: Post): Promise<Post> {
