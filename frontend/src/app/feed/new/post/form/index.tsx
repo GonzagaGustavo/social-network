@@ -1,54 +1,54 @@
-"use client";
+'use client'
 
 import {
   ErrorMessage,
   Field,
   Formik,
   Form as FormikForm,
-  FormikHelpers,
-} from "formik";
-import React from "react";
-import validation, { NewPostData, initialValues } from "./validation";
-import Input from "./input";
-import styles from "./form.module.scss";
-import { secureApiPost } from "@/utils/constants";
-import { useSession } from "next-auth/react";
+  FormikHelpers
+} from 'formik'
+import React from 'react'
+import validation, { NewPostData, initialValues } from './validation'
+import Input from './input'
+import styles from './form.module.scss'
+import { secureApiPost } from '@/utils/constants'
+import { useSession } from 'next-auth/react'
 
 type Props = {
-  file: File | any;
-  thumb: File | null;
-};
+  file: File | any
+  thumb: File | null
+}
 
 export default function Form({ file, thumb }: Props) {
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
   const onSubmit = async (
     values: NewPostData,
     e: FormikHelpers<NewPostData>
   ) => {
-    const formData = new FormData();
+    const formData = new FormData()
 
-    formData.append("title", values.title);
-    formData.append("description", values.description);
-    formData.append("file", file);
-    if (file.type.substring(0, 5) === "video") {
-      if (thumb) formData.append("file", thumb);
+    formData.append('title', values.title)
+    formData.append('description', values.description)
+    formData.append('file', file)
+    if (file.type.substring(0, 5) === 'video') {
+      if (thumb) formData.append('file', thumb)
     } else {
-      formData.append("croppedArea", JSON.stringify(file.croppedArea));
+      formData.append('croppedArea', JSON.stringify(file.croppedArea))
     }
 
-    const res = await secureApiPost("/post", formData, session?.accessToken!);
+    const res = await secureApiPost('/post', formData, session?.accessToken!)
 
     if (res.status !== 200) {
-      alert("Ocorreu um erro ao criar a publicação");
+      alert('Ocorreu um erro ao criar a publicação')
 
-      console.log(res.data);
+      console.log(res.data)
     } else {
-      console.log(res.data);
+      console.log(res.data)
     }
 
-    e.setSubmitting(false);
-  };
+    e.setSubmitting(false)
+  }
 
   return (
     <Formik
@@ -86,5 +86,5 @@ export default function Form({ file, thumb }: Props) {
         </FormikForm>
       )}
     </Formik>
-  );
+  )
 }

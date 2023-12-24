@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react'
 
 export const metadata = {
-  title: "Feed",
-};
+  title: 'Feed'
+}
 
 export default function FeedPage() {
-  return <div>FeedPage</div>;
+  return <div>FeedPage</div>
 }

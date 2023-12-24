@@ -1,15 +1,15 @@
-import React from "react";
-import Image from "next/image";
-import styles from "./login.module.scss";
-import { Antonio } from "next/font/google";
-import Form from "./form";
-import Link from "next/link";
+import React from 'react'
+import Image from 'next/image'
+import styles from './login.module.scss'
+import { Antonio } from 'next/font/google'
+import Form from './form'
+import Link from 'next/link'
 
-const antonio = Antonio({ subsets: ["latin"] });
+const antonio = Antonio({ subsets: ['latin'] })
 
 export const metadata = {
-  title: "Login",
-};
+  title: 'Login'
+}
 
 export default function LoginPage() {
   return (
@@ -45,7 +45,7 @@ export default function LoginPage() {
               required
             />
             <p>
-              Ainda não possui uma conta?{" "}
+              Ainda não possui uma conta?{' '}
               <Link href="/register">Crie uma!</Link>
             </p>
             <div className={styles.btnWrapper}>
@@ -57,5 +57,5 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

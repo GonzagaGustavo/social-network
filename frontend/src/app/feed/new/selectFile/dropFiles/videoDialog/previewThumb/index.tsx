@@ -1,20 +1,20 @@
-"use client";
+'use client'
 
-import React, { useEffect, useState } from "react";
-import styles from "../video.module.scss";
-import Image from "next/image";
+import React, { useEffect, useState } from 'react'
+import styles from '../video.module.scss'
+import Image from 'next/image'
 
 type Props = {
-  thumb: File | null;
-  setThumb: React.Dispatch<React.SetStateAction<File | null>>;
-};
+  thumb: File | null
+  setThumb: React.Dispatch<React.SetStateAction<File | null>>
+}
 
 export default function PreviewThumb({ thumb, setThumb }: Props) {
-  const [thumbUrl, setThumbUrl] = useState("");
+  const [thumbUrl, setThumbUrl] = useState('')
 
   useEffect(() => {
-    if (thumb) setThumbUrl(URL.createObjectURL(thumb));
-  }, [thumb]);
+    if (thumb) setThumbUrl(URL.createObjectURL(thumb))
+  }, [thumb])
 
   return (
     <div className={styles.selectThumb}>
@@ -39,5 +39,5 @@ export default function PreviewThumb({ thumb, setThumb }: Props) {
         </p>
       </div>
     </div>
-  );
+  )
 }

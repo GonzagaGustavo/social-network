@@ -1,15 +1,15 @@
-import Provider from "./components/provider";
-import "./globals.css";
+import Provider from './components/provider'
+import './globals.css'
 
 export const metadata = {
-  title: { default: "SociNex", template: "SociNex - %s" },
-  description: "A rede social criada por um brasileiro.",
-};
+  title: { default: 'SociNex', template: 'SociNex - %s' },
+  description: 'A rede social criada por um brasileiro.'
+}
 
 export default function RootLayout({
-  children,
+  children
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="pt-br">
@@ -17,5 +17,5 @@ export default function RootLayout({
         <Provider>{children}</Provider>
       </body>
     </html>
-  );
+  )
 }

@@ -1,49 +1,49 @@
-"use client";
+'use client'
 
-import React from "react";
+import React from 'react'
 import {
   Formik,
   FormikHelpers,
   Form as FormikForm,
   Field,
-  ErrorMessage,
-} from "formik";
-import validation, { RegisterData, initialValues } from "./validation";
-import styles from "./form.module.scss";
-import Input from "./input";
-import InputUsername from "./inputUsername";
-import { apiPost } from "@/utils/constants";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+  ErrorMessage
+} from 'formik'
+import validation, { RegisterData, initialValues } from './validation'
+import styles from './form.module.scss'
+import Input from './input'
+import InputUsername from './inputUsername'
+import { apiPost } from '@/utils/constants'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export default function Form() {
-  const router = useRouter();
+  const router = useRouter()
 
   const onSubmit = async (
     values: RegisterData,
     e: FormikHelpers<RegisterData>
   ) => {
-    const res = await apiPost("/user", values);
+    const res = await apiPost('/user', values)
 
     if (res.data.success) {
-      const res = await signIn("credentials", {
+      const res = await signIn('credentials', {
         redirect: false,
         email: values.email,
         password: values.password,
-        callbackUrl: "/",
-      });
+        callbackUrl: '/'
+      })
 
       if (res?.error) {
-        return alert(res.error);
+        return alert(res.error)
       }
 
-      router.push(res?.url!);
+      router.push(res?.url!)
     } else {
-      alert(res.data.err);
+      alert(res.data.err)
     }
 
-    e.setSubmitting(false);
-  };
+    e.setSubmitting(false)
+  }
 
   return (
     <Formik
@@ -113,5 +113,5 @@ export default function Form() {
         </FormikForm>
       )}
     </Formik>
-  );
+  )
 }

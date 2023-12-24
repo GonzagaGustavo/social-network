@@ -1,11 +1,11 @@
-import React from "react";
-import { TbUpload } from "react-icons/tb";
-import styles from "./selectFile.module.scss";
+import React from 'react'
+import { TbUpload } from 'react-icons/tb'
+import styles from './selectFile.module.scss'
 
 export default function SelectFile({
-  children,
+  children
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <div className={styles.content}>
@@ -19,5 +19,5 @@ export default function SelectFile({
 
       {children}
     </div>
-  );
+  )
 }

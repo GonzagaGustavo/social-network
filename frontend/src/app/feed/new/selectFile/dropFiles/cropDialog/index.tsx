@@ -1,54 +1,54 @@
-"use client";
+'use client'
 
-import React, { useEffect, useState } from "react";
-import styles from "./crop.module.scss";
-import Cropper, { Area } from "react-easy-crop";
+import React, { useEffect, useState } from 'react'
+import styles from './crop.module.scss'
+import Cropper, { Area } from 'react-easy-crop'
 
 type Props = {
-  open?: true;
-  file: File | null;
-  setFile: React.Dispatch<React.SetStateAction<File | null>>;
-  setCropped: React.Dispatch<React.SetStateAction<boolean>>;
-};
+  open?: true
+  file: File | null
+  setFile: React.Dispatch<React.SetStateAction<File | null>>
+  setCropped: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-type AspectRatio = "1 / 1" | "16 / 9" | "4 / 5";
+type AspectRatio = '1 / 1' | '16 / 9' | '4 / 5'
 
 export default function CropDialog({ open, file, setFile, setCropped }: Props) {
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [aspect, setAspect] = useState<AspectRatio>("1 / 1");
-  const [zoom, setZoom] = useState(1);
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
-  const [croppedArea, setCroppedArea] = useState<Area | null>(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [aspect, setAspect] = useState<AspectRatio>('1 / 1')
+  const [zoom, setZoom] = useState(1)
+  const [fileUrl, setFileUrl] = useState<string | null>(null)
+  const [croppedArea, setCroppedArea] = useState<Area | null>(null)
 
   useEffect(() => {
-    if (file && file.type.substring(0, 5) === "image") {
-      setFileUrl(URL.createObjectURL(file));
+    if (file && file.type.substring(0, 5) === 'image') {
+      setFileUrl(URL.createObjectURL(file))
     } else {
-      setFileUrl(null);
+      setFileUrl(null)
     }
-  }, [file]);
+  }, [file])
 
   const cropComplete = (croppedArea: Area, croppedAreaPixels: Area) => {
-    setCroppedArea(croppedArea);
-  };
+    setCroppedArea(croppedArea)
+  }
 
   function next() {
-    if (!file) return;
+    if (!file) return
     const newFile = Object.assign(file, {
       croppedArea,
       zoom,
       crop,
-      aspectRatio: aspect,
-    });
+      aspectRatio: aspect
+    })
 
-    setFile(newFile);
+    setFile(newFile)
 
-    setCropped(true);
+    setCropped(true)
   }
 
   return (
     <div
-      style={{ display: open ? "flex" : "none" }}
+      style={{ display: open ? 'flex' : 'none' }}
       className={styles.dialogWrapper}
     >
       <div className={styles.dialogContent}>
@@ -64,9 +64,9 @@ export default function CropDialog({ open, file, setFile, setCropped }: Props) {
               onCropComplete={cropComplete}
               style={{
                 containerStyle: {
-                  borderTopLeftRadius: "4px",
-                  borderTopRightRadius: "4px",
-                },
+                  borderTopLeftRadius: '4px',
+                  borderTopRightRadius: '4px'
+                }
               }}
             />
           ) : null}
@@ -93,5 +93,5 @@ export default function CropDialog({ open, file, setFile, setCropped }: Props) {
         </div>
       </div>
     </div>
-  );
+  )
 }

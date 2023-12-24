@@ -1,13 +1,13 @@
-"use client";
+'use client'
 
-import React, { useEffect, useState } from "react";
-import styles from "../form.module.scss";
-import { ErrorMessage, Field, useFormikContext } from "formik";
-import { api } from "@/utils/constants";
+import React, { useEffect, useState } from 'react'
+import styles from '../form.module.scss'
+import { ErrorMessage, Field, useFormikContext } from 'formik'
+import { api } from '@/utils/constants'
 
 export default function InputUsername() {
-  const { errors, setErrors } = useFormikContext();
-  const [username, setUsername] = useState("");
+  const { errors, setErrors } = useFormikContext()
+  const [username, setUsername] = useState('')
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -17,21 +17,21 @@ export default function InputUsername() {
             if (json.exists) {
               setErrors({
                 ...errors,
-                username: "Esse username já existe!",
-              });
+                username: 'Esse username já existe!'
+              })
             } else {
-              console.log("user não existe");
+              console.log('user não existe')
               setErrors({
                 ...errors,
-                username: null,
-              });
+                username: null
+              })
             }
-          });
-        });
+          })
+        })
       }
-    }, 3000);
+    }, 3000)
 
-    return () => clearTimeout(timeout);
+    return () => clearTimeout(timeout)
     // eslint-disable-next-line
   }, [username]);
 
@@ -47,5 +47,5 @@ export default function InputUsername() {
       />
       <ErrorMessage name="username" component="div" />
     </div>
-  );
+  )
 }

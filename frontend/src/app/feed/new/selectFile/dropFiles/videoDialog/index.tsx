@@ -1,32 +1,32 @@
-"use client";
+'use client'
 
-import React, { useState } from "react";
-import styles from "./video.module.scss";
-import SelectThumb from "./selectThumb";
-import PreviewThumb from "./previewThumb";
+import React, { useState } from 'react'
+import styles from './video.module.scss'
+import SelectThumb from './selectThumb'
+import PreviewThumb from './previewThumb'
 
 type Props = {
-  open?: true;
-  setFile: React.Dispatch<React.SetStateAction<File | null>>;
-  setCropped: React.Dispatch<React.SetStateAction<boolean>>;
-  thumb: File | null;
-  setThumb: React.Dispatch<React.SetStateAction<File | null>>;
-};
+  open?: true
+  setFile: React.Dispatch<React.SetStateAction<File | null>>
+  setCropped: React.Dispatch<React.SetStateAction<boolean>>
+  thumb: File | null
+  setThumb: React.Dispatch<React.SetStateAction<File | null>>
+}
 
 export default function VideoDialog({
   open,
   setFile,
   setCropped,
   setThumb,
-  thumb,
+  thumb
 }: Props) {
   function next() {
-    if (thumb) setCropped(true);
+    if (thumb) setCropped(true)
   }
 
   return (
     <div
-      style={{ display: open ? "flex" : "none" }}
+      style={{ display: open ? 'flex' : 'none' }}
       className={styles.dialogWrapper}
     >
       <div className={styles.dialogContent}>
@@ -42,8 +42,8 @@ export default function VideoDialog({
           <button
             className={styles.buttonBack}
             onClick={() => {
-              setThumb(null);
-              setFile(null);
+              setThumb(null)
+              setFile(null)
             }}
           >
             Voltar
@@ -59,5 +59,5 @@ export default function VideoDialog({
         </div>
       </div>
     </div>
-  );
+  )
 }

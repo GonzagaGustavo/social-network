@@ -1,29 +1,29 @@
-"use client";
+'use client'
 
-import { Post } from "@/types/api";
-import { api } from "@/utils/constants";
-import React from "react";
+import { Post } from '@/types/api'
+import { api } from '@/utils/constants'
+import React from 'react'
 
 type Props = {
-  videoRef: React.RefObject<HTMLVideoElement>;
-  open: boolean;
-  post: Post;
-  closeConfig(): void;
-};
+  videoRef: React.RefObject<HTMLVideoElement>
+  open: boolean
+  post: Post
+  closeConfig(): void
+}
 
 export default function Quality({ open, post, videoRef, closeConfig }: Props) {
   function changeVideoSrc(src: string) {
     if (videoRef.current) {
-      videoRef.current.src = src;
-      closeConfig();
+      videoRef.current.src = src
+      closeConfig()
     }
   }
 
   return (
-    <div style={{ display: open ? "block" : "none" }}>
+    <div style={{ display: open ? 'block' : 'none' }}>
       {post.video?.v1080p ? (
         <div
-          className="p-2 cursor-pointer hover:bg-zinc-700 transition-all"
+          className="cursor-pointer p-2 transition-all hover:bg-zinc-700"
           onClick={() =>
             changeVideoSrc(api + `/post/video/${post.video?.v1080p}`)
           }
@@ -34,7 +34,7 @@ export default function Quality({ open, post, videoRef, closeConfig }: Props) {
 
       {post.video?.v720p ? (
         <div
-          className="p-2 cursor-pointer hover:bg-zinc-700 transition-all"
+          className="cursor-pointer p-2 transition-all hover:bg-zinc-700"
           onClick={() =>
             changeVideoSrc(api + `/post/video/${post.video?.v720p}`)
           }
@@ -45,7 +45,7 @@ export default function Quality({ open, post, videoRef, closeConfig }: Props) {
 
       {post.video?.v480p ? (
         <div
-          className="p-2 cursor-pointer hover:bg-zinc-700 transition-all"
+          className="cursor-pointer p-2 transition-all hover:bg-zinc-700"
           onClick={() =>
             changeVideoSrc(api + `/post/video/${post.video?.v480p}`)
           }
@@ -56,7 +56,7 @@ export default function Quality({ open, post, videoRef, closeConfig }: Props) {
 
       {post.video?.v144p ? (
         <div
-          className="p-2 cursor-pointer hover:bg-zinc-700 transition-all"
+          className="cursor-pointer p-2 transition-all hover:bg-zinc-700"
           onClick={() =>
             changeVideoSrc(api + `/post/video/${post.video?.v144p}`)
           }
@@ -65,5 +65,5 @@ export default function Quality({ open, post, videoRef, closeConfig }: Props) {
         </div>
       ) : null}
     </div>
-  );
+  )
 }

@@ -1,10 +1,10 @@
-import React from "react";
-import { BiLike } from "react-icons/bi";
+import React from 'react'
+import { BiLike } from 'react-icons/bi'
 
 export default function Like() {
   return (
-    <div className="w-auto h-5/6 p-2 skewed pr-3 bg-gray-300 hover:cursor-pointer hover:bg-gray-400">
-      <BiLike className="w-full h-full" />
+    <div className="skewed h-5/6 w-auto bg-gray-300 p-2 pr-3 hover:cursor-pointer hover:bg-gray-400">
+      <BiLike className="h-full w-full" />
     </div>
-  );
+  )
 }

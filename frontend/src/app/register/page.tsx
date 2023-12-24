@@ -1,14 +1,14 @@
-import React from "react";
-import Image from "next/image";
-import { Antonio } from "next/font/google";
-import styles from "./register.module.scss";
-import Form from "./form";
+import React from 'react'
+import Image from 'next/image'
+import { Antonio } from 'next/font/google'
+import styles from './register.module.scss'
+import Form from './form'
 
-const antonio = Antonio({ subsets: ["latin"] });
+const antonio = Antonio({ subsets: ['latin'] })
 
 export const metadata = {
-  title: "Register",
-};
+  title: 'Register'
+}
 
 export default function RegisterPage() {
   return (
@@ -28,5 +28,5 @@ export default function RegisterPage() {
         <Form />
       </div>
     </div>
-  );
+  )
 }

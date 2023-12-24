@@ -1,10 +1,10 @@
-import React from "react";
-import { BiDislike } from "react-icons/bi";
+import React from 'react'
+import { BiDislike } from 'react-icons/bi'
 
 export default function DesLikes() {
   return (
-    <div className="w-auto h-5/6 p-2 skewed pl-3 bg-gray-300 hover:cursor-pointer hover:bg-gray-400">
-      <BiDislike className="w-full h-full" />
+    <div className="skewed h-5/6 w-auto bg-gray-300 p-2 pl-3 hover:cursor-pointer hover:bg-gray-400">
+      <BiDislike className="h-full w-full" />
     </div>
-  );
+  )
 }

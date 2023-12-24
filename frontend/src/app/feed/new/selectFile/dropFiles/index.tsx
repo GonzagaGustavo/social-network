@@ -1,85 +1,85 @@
-"use client";
+'use client'
 
-import React, { useEffect, useRef, useState } from "react";
-import styles from "../selectFile.module.scss";
-import CropDialog from "./cropDialog";
-import VideoDialog from "./videoDialog";
+import React, { useEffect, useRef, useState } from 'react'
+import styles from '../selectFile.module.scss'
+import CropDialog from './cropDialog'
+import VideoDialog from './videoDialog'
 
 type Props = {
-  file: File | null;
-  setFile: React.Dispatch<React.SetStateAction<File | null>>;
-  thumb: File | null;
-  setThumb: React.Dispatch<React.SetStateAction<File | null>>;
-  cropped: boolean;
-  setCropped: React.Dispatch<React.SetStateAction<boolean>>;
-};
+  file: File | null
+  setFile: React.Dispatch<React.SetStateAction<File | null>>
+  thumb: File | null
+  setThumb: React.Dispatch<React.SetStateAction<File | null>>
+  cropped: boolean
+  setCropped: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export default function DropFiles({
   setFile,
   file,
   setCropped,
   thumb,
-  setThumb,
+  setThumb
 }: Props) {
-  const inputFileRef = useRef<HTMLInputElement>(null);
+  const inputFileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (file) return;
+    if (file) return
 
     function drop(e: DragEvent) {
-      e.preventDefault();
-      const file = e.dataTransfer?.files[0];
+      e.preventDefault()
+      const file = e.dataTransfer?.files[0]
 
-      console.log("oi");
-      if (!file) return;
+      console.log('oi')
+      if (!file) return
 
       const imagesSupported = [
-        "image/jpeg",
-        "image/png",
-        "image/tiff",
-        "image/webp",
-        "image/svg+xml",
-        "application/pdf",
-        "video/mp4",
-      ];
+        'image/jpeg',
+        'image/png',
+        'image/tiff',
+        'image/webp',
+        'image/svg+xml',
+        'application/pdf',
+        'video/mp4'
+      ]
 
-      if (!imagesSupported.find((type) => type === file.type)) return;
+      if (!imagesSupported.find((type) => type === file.type)) return
 
-      setFile(file);
+      setFile(file)
     }
 
-    document.documentElement.addEventListener("drop", drop);
-    document.documentElement.addEventListener("dragover", (e) =>
+    document.documentElement.addEventListener('drop', drop)
+    document.documentElement.addEventListener('dragover', (e) =>
       e.preventDefault()
-    );
+    )
 
     return () => {
-      document.documentElement.removeEventListener("drop", drop);
-      document.documentElement.removeEventListener("dragover", (e) =>
+      document.documentElement.removeEventListener('drop', drop)
+      document.documentElement.removeEventListener('dragover', (e) =>
         e.preventDefault()
-      );
-    };
+      )
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [file]);
+  }, [file])
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (!e.target.files) return;
-    const file = e.target.files[0];
+    if (!e.target.files) return
+    const file = e.target.files[0]
 
-    if (!file) return;
+    if (!file) return
 
     const imagesSupported = [
-      "image/jpeg",
-      "image/png",
-      "image/tiff",
-      "image/webp",
-      "image/svg+xml",
-      "application/pdf",
-      "video/mp4",
-    ];
+      'image/jpeg',
+      'image/png',
+      'image/tiff',
+      'image/webp',
+      'image/svg+xml',
+      'application/pdf',
+      'video/mp4'
+    ]
 
-    if (!imagesSupported.find((type) => type === file.type)) return;
-    setFile(file);
+    if (!imagesSupported.find((type) => type === file.type)) return
+    setFile(file)
   }
 
   return (
@@ -87,18 +87,18 @@ export default function DropFiles({
       <CropDialog
         file={file}
         setFile={setFile}
-        open={file && file.type.substring(0, 5) === "image" ? true : undefined}
+        open={file && file.type.substring(0, 5) === 'image' ? true : undefined}
         setCropped={setCropped}
       />
       <VideoDialog
-        open={file && file.type.substring(0, 5) === "video" ? true : undefined}
+        open={file && file.type.substring(0, 5) === 'video' ? true : undefined}
         setFile={setFile}
         setThumb={setThumb}
         thumb={thumb}
         setCropped={setCropped}
       />
       <input
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
         type="file"
         ref={inputFileRef}
         onChange={(e) => handleChange(e)}
@@ -110,5 +110,5 @@ export default function DropFiles({
         Selecionar arquivo
       </button>
     </>
-  );
+  )
 }

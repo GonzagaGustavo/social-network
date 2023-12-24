@@ -1,24 +1,24 @@
-import React from "react";
-import Like from "./like";
-import DesLikes from "./deslike";
-import { Post } from "@/types/api";
+import React from 'react'
+import Like from './like'
+import DesLikes from './deslike'
+import { Post } from '@/types/api'
 
 type Props = {
-  post: Post;
-};
+  post: Post
+}
 
 export default function Actions({ post }: Props) {
   return (
-    <div className="w-[97%] flex justify-between">
+    <div className="flex w-[97%] justify-between">
       <div>{post.autor.name}</div>
 
-      <div className="h-full flex items-center">
+      <div className="flex h-full items-center">
         <Like />
-        <span className="h-5/6 flex justify-center items-center skewed bg-gray-300 select-none">
+        <span className="skewed flex h-5/6 select-none items-center justify-center bg-gray-300">
           |
         </span>
         <DesLikes />
       </div>
     </div>
-  );
+  )
 }
