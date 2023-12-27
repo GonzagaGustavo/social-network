@@ -29,3 +29,12 @@ export const secureApiGet = async (path: string, token: string) => {
 
   return response
 }
+export const secureApiDelete = async (path: string, token: string) => {
+  const response = await axios.delete(api + path, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  return response
+}

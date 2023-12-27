@@ -1,23 +1,48 @@
 'use client'
 
-import { secureApiGet } from '@/utils/constants'
+import { secureApiDelete, secureApiGet } from '@/utils/constants'
 import clsx from 'clsx'
 import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useEffect, useRef, useState } from 'react'
 
 type Props = {
-  inputFocus: boolean
+  showHistory: boolean
+  historyRef: React.MutableRefObject<HTMLDivElement | null>
+  inputRef: React.MutableRefObject<HTMLInputElement | null>
 }
 
-export default function HistorySearch({ inputFocus }: Props) {
+export default function HistorySearch({
+  showHistory,
+  historyRef,
+  inputRef
+}: Props) {
   const { data: session, status } = useSession()
-  const [historys, setHistory] = useState<{ search: string; sort: number }[]>(
-    []
-  )
+  const [historys, setHistory] = useState<
+    { id: string; search: string; sort: number }[]
+  >([])
+  const router = useRouter()
+
+  async function removeHistory(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: string
+  ) {
+    e.stopPropagation()
+    if (status === 'authenticated') {
+      const { data } = await secureApiDelete(
+        `/history/search/${id}`,
+        session.accessToken
+      )
+      if (data.success) {
+        setHistory(historys.filter((history) => history.id !== id))
+        inputRef.current?.focus()
+      }
+    }
+  }
 
   useEffect(() => {
     async function c() {
-      if (status === 'authenticated' && !historys.length && inputFocus) {
+      if (status === 'authenticated' && !historys.length && showHistory) {
         const { status, data } = await secureApiGet(
           '/history/search',
           session.accessToken
@@ -29,19 +54,30 @@ export default function HistorySearch({ inputFocus }: Props) {
       }
     }
     c()
-  }, [status, inputFocus])
+  }, [status, showHistory])
 
   return (
     <div
+      ref={historyRef}
       className={clsx(
-        'absolute top-[120%] h-max w-full rounded-md bg-black p-3 shadow-[inset_0_0_0_1px_var(--gray-a7)]',
-        historys.length && inputFocus ? 'block' : 'hidden'
+        'absolute top-[120%] h-max w-full rounded-md bg-black py-3 shadow-[inset_0_0_0_1px_var(--gray-a7)]',
+        historys.length && showHistory ? 'block' : 'hidden'
       )}
     >
       {historys.map((history) => (
-        <div key={history.sort} className="flex justify-between">
+        <div
+          key={history.id}
+          className="flex justify-between px-3 hover:bg-gray-700"
+          onClick={() => {
+            console.log(history.search)
+            router.push(`/search?q=${history.search}`)
+          }}
+        >
           <p>{history.search}</p>
-          <button className="text-blue-500 underline-offset-2 hover:underline">
+          <button
+            className="text-blue-500 underline-offset-2 hover:underline"
+            onClick={(e) => removeHistory(e, history.id)}
+          >
             Remove
           </button>
         </div>
