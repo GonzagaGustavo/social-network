@@ -5,5 +5,5 @@ export const metadata = {
 }
 
 export default function FeedPage() {
-  return <div>FeedPage</div>
+  return <div className="min-h-screen">FeedPage</div>
 }

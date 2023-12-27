@@ -1,13 +1,13 @@
-import { apiPost } from '@/utils/constants'
+import { apiPost, secureApiGet } from '@/utils/constants'
 import NextAuth, { AuthOptions } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 
 type ResponseUser = {
   success: boolean
   token: string
-  refreshToken: { id: string; expiresIn: number; userId: number }
-  user: { name: string; email: string; username: string }
+  refreshToken: { _id: string; _expiresIn: number; _userId: number }
 }
+type User = { name: string; email: string; username: string }
 
 async function login(credentials: {
   email: string
@@ -23,7 +23,7 @@ async function refreshAccessToken(refreshToken: {
   expiresIn: number
   userId: number
 }) {
-  console.log('refresh token')
+  // console.log('refresh token')
 
   const refresh = await apiPost('/user/refresh-token', {
     refresh_token: refreshToken.id
@@ -54,9 +54,8 @@ export const authOptions: AuthOptions = {
         password: { label: 'password', type: 'password' }
       },
       async authorize(credentials, req) {
-        console.log('authorize')
+        // console.log('authorize')
         const response = await login(credentials!)
-        console.log(response)
         if (response.status === 201) {
           throw new Error(response.data.err.password || response.data.err.email)
         }
@@ -71,9 +70,18 @@ export const authOptions: AuthOptions = {
       const user: ResponseUser = modifiedUser as any
 
       if (user) {
+        const { data: updatedUser, status } = await secureApiGet(
+          '/authentication',
+          user.token
+        )
+
+        if (status === 200) {
+          console.log(updatedUser)
+          token.user = updatedUser
+        }
+
         token.accessToken = user.token
-        token.id = user.refreshToken.userId
-        token.user = user.user
+        token.id = user.refreshToken._userId
         token.refreshToken = user.refreshToken
       }
 
@@ -93,9 +101,7 @@ export const authOptions: AuthOptions = {
       return token
     },
     async session({ session, token }) {
-      if (token.err) return session
-
-      if (token.user && token.accessToken) {
+      if (token.accessToken) {
         session.accessToken = token.accessToken as string
         session.user = token.user as {
           name: string

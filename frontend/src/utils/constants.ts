@@ -20,3 +20,12 @@ export const secureApiPost = async (path: string, body: any, token: string) => {
 
   return response
 }
+export const secureApiGet = async (path: string, token: string) => {
+  const response = await axios.get(api + path, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  return response
+}

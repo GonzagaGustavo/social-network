@@ -1,5 +1,6 @@
 import Provider from './components/provider'
 import './globals.css'
+import '@radix-ui/themes/styles.css'
 
 export const metadata = {
   title: { default: 'SociNex', template: 'SociNex - %s' },
