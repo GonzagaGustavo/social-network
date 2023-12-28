@@ -1,0 +1,31 @@
+'use client'
+
+import clsx from 'clsx'
+import useUpload from '../context/upload'
+import getStep from './steps'
+import { useState } from 'react'
+
+export default function StepsDialog() {
+  const { video } = useUpload()
+  const [step, setStep] = useState(0)
+
+  return (
+    <div
+      className={clsx(
+        'fixed left-0 top-0 z-50 h-screen w-screen items-center justify-center bg-dialogBg',
+        video ? 'flex' : 'hidden'
+      )}
+    >
+      <div className="flex h-[80%] w-[80%] flex-col justify-between overflow-hidden rounded-md">
+        <div className="h-[calc(100%-70px)] w-full bg-white">
+          {getStep({ step })}
+        </div>
+
+        <div className="flex h-[70px] w-full justify-between bg-slate-200 px-6 py-3 dark:bg-slate-800">
+          <button onClick={() => setStep(step - 1)}>Back</button>
+          <button onClick={() => setStep(step + 1)}>Forward</button>
+        </div>
+      </div>
+    </div>
+  )
+}

@@ -1,26 +1,11 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styles from '../selectFile.module.scss'
 import CropDialog from './cropDialog'
 import VideoDialog from './videoDialog'
 
-type Props = {
-  file: File | null
-  setFile: React.Dispatch<React.SetStateAction<File | null>>
-  thumb: File | null
-  setThumb: React.Dispatch<React.SetStateAction<File | null>>
-  cropped: boolean
-  setCropped: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export default function DropFiles({
-  setFile,
-  file,
-  setCropped,
-  thumb,
-  setThumb
-}: Props) {
+export default function DropFiles() {
   const inputFileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -84,12 +69,12 @@ export default function DropFiles({
 
   return (
     <>
-      <CropDialog
+      {/* <CropDialog
         file={file}
         setFile={setFile}
         open={file && file.type.substring(0, 5) === 'image' ? true : undefined}
         setCropped={setCropped}
-      />
+      /> */}
       <VideoDialog
         open={file && file.type.substring(0, 5) === 'video' ? true : undefined}
         setFile={setFile}

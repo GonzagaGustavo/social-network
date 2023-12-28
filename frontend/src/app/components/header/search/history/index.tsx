@@ -60,14 +60,14 @@ export default function HistorySearch({
     <div
       ref={historyRef}
       className={clsx(
-        'absolute top-[120%] h-max w-full rounded-md bg-black py-3 shadow-[inset_0_0_0_1px_var(--gray-a7)]',
+        'absolute top-[120%] h-max w-full overflow-hidden rounded-md bg-slate-50 py-3 shadow-[inset_0_0_0_1px_var(--gray-a7)] dark:bg-black',
         historys.length && showHistory ? 'block' : 'hidden'
       )}
     >
       {historys.map((history) => (
         <div
           key={history.id}
-          className="flex justify-between px-3 hover:bg-gray-700"
+          className="flex justify-between px-3 hover:bg-slate-200 dark:hover:bg-gray-700"
           onClick={() => {
             console.log(history.search)
             router.push(`/search?q=${history.search}`)

@@ -3,8 +3,8 @@ import './globals.css'
 import '@radix-ui/themes/styles.css'
 
 export const metadata = {
-  title: { default: 'SociNex', template: 'SociNex - %s' },
-  description: 'A rede social criada por um brasileiro.'
+  title: 'SociNex',
+  description: 'Plataforma de compartilhamento de videos'
 }
 
 export default function RootLayout({
