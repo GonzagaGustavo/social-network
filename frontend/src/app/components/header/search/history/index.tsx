@@ -1,6 +1,6 @@
 'use client'
 
-import { secureApiDelete, secureApiGet } from '@/utils/constants'
+import { secureApiDelete, secureApiGet } from '@/utils/api'
 import clsx from 'clsx'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'

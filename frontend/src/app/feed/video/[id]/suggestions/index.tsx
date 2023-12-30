@@ -1,4 +1,4 @@
-import { api } from '@/utils/constants'
+import { api } from '@/utils/api'
 import React from 'react'
 import SuggestionCard from './suggestionCard'
 import { PostSuggestion } from '@/types/api'

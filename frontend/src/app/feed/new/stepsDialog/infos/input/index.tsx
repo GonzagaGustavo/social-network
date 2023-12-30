@@ -1,14 +1,21 @@
 import { TextFieldInput } from '@radix-ui/themes'
 import React from 'react'
 
-type Props = {
+interface Props {
   err?: string | null
   placeholder?: string
   label: string
   type?: string
+  [key: string]: any
 }
 
-export default function Input({ err, label, type, placeholder }: Props) {
+export default function Input({
+  err,
+  label,
+  type,
+  placeholder,
+  ...rest
+}: Props) {
   return (
     <div className="mb-2 flex flex-col">
       <label className="mb-2 text-xl">{label}</label>
@@ -16,6 +23,7 @@ export default function Input({ err, label, type, placeholder }: Props) {
         type={type ? type : 'text'}
         placeholder={placeholder}
         size="3"
+        {...rest}
       />
       <div className="text-red-500">{err}</div>
     </div>

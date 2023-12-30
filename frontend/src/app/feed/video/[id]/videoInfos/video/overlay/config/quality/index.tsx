@@ -1,7 +1,7 @@
 'use client'
 
 import { Post } from '@/types/api'
-import { api } from '@/utils/constants'
+import { api } from '@/utils/api'
 import React from 'react'
 
 type Props = {

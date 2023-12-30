@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react'
 import Overlay from './overlay'
-import { api } from '@/utils/constants'
+import { api } from '@/utils/api'
 import { Post } from '@/types/api'
 
 type Props = {

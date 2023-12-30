@@ -98,7 +98,7 @@ export default function ThumbStep() {
         className="rounded-md bg-primary px-4 py-3 text-lg font-medium text-white transition-shadow hover:shadow-lg"
         onClick={() => inputRef.current?.click()}
       >
-        Select file
+        {alreadyHadThumb ? 'Select another file' : 'Select file'}
       </button>
     </div>
   )

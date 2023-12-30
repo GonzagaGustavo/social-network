@@ -12,7 +12,7 @@ import validation, { RegisterData, initialValues } from './validation'
 import styles from './form.module.scss'
 import Input from './input'
 import InputUsername from './inputUsername'
-import { apiPost } from '@/utils/constants'
+import { apiPost } from '@/utils/api'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 

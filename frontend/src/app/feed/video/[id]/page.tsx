@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 import VideoInfos from './videoInfos'
 import Suggestions from './suggestions'
 import { Post } from '@/types/api'
-import { api } from '@/utils/constants'
+import { api } from '@/utils/api'
 
 type Props = {
   params: { id: string }

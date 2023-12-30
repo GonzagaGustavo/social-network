@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../form.module.scss'
 import { ErrorMessage, Field, useFormikContext } from 'formik'
-import { api } from '@/utils/constants'
+import { api } from '@/utils/api'
 
 export default function InputUsername() {
   const { errors, setErrors } = useFormikContext()
@@ -33,7 +33,7 @@ export default function InputUsername() {
 
     return () => clearTimeout(timeout)
     // eslint-disable-next-line
-  }, [username]);
+  }, [username])
 
   return (
     <div className={styles.inputWrapper}>

@@ -1,5 +1,5 @@
 import { Post } from '@/types/api'
-import { api } from '@/utils/constants'
+import { api } from '@/utils/api'
 import React from 'react'
 import Video from './video'
 import Actions from './actions'

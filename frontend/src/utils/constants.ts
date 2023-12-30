@@ -1,40 +1,16 @@
-import axios, { AxiosResponse } from 'axios'
-
-export const api = 'http://localhost:3001/api'
-export const apiPost = async (path: string, body: any) => {
-  try {
-    const response = await axios.post(api + path, body)
-
-    return response
-  } catch (err: any) {
-    console.log(err.response)
-    return err
-  }
+export type Quality = {
+  width: number | 'auto'
+  height: number
 }
-export const secureApiPost = async (path: string, body: any, token: string) => {
-  const response = await axios.post(api + path, body, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
 
-  return response
+const qvga: Quality = {
+  height: 320,
+  width: 240
 }
-export const secureApiGet = async (path: string, token: string) => {
-  const response = await axios.get(api + path, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-
-  return response
-}
-export const secureApiDelete = async (path: string, token: string) => {
-  const response = await axios.delete(api + path, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-
-  return response
+export const encoderConfig = {
+  ...qvga,
+  bitrate: 10e6,
+  codec: 'vp09.00.10.08',
+  pt: 4,
+  hardwareAcceleration: 'prefer-software'
 }

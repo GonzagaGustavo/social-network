@@ -1,4 +1,4 @@
-import { apiPost, secureApiGet } from '@/utils/constants'
+import { apiPost, secureApiGet } from '@/utils/api'
 import NextAuth, { AuthOptions } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 

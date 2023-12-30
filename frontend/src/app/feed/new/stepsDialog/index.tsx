@@ -4,10 +4,26 @@ import clsx from 'clsx'
 import useUpload from '../context/upload'
 import getStep from './steps'
 import { useState } from 'react'
+import { Button } from '@radix-ui/themes'
+import useForm from '../context/form'
 
 export default function StepsDialog() {
   const { video } = useUpload()
+  const { submit } = useForm()
   const [step, setStep] = useState(0)
+
+  function handleNext() {
+    if (step === 1) {
+      submit()
+      return
+    }
+    setStep(step + 1)
+  }
+
+  function handleBack() {
+    if (step === 0) return
+    setStep(step - 1)
+  }
 
   return (
     <div
@@ -17,13 +33,24 @@ export default function StepsDialog() {
       )}
     >
       <div className="flex h-[80%] w-[80%] flex-col justify-between overflow-hidden rounded-md">
-        <div className="h-[calc(100%-70px)] w-full bg-white">
+        <div className="h-[calc(100%-70px)] w-full bg-white dark:bg-[rgb(25,25,25)]">
           {getStep({ step })}
         </div>
 
         <div className="flex h-[70px] w-full justify-between bg-slate-200 px-6 py-3 dark:bg-slate-800">
-          <button onClick={() => setStep(step - 1)}>Back</button>
-          <button onClick={() => setStep(step + 1)}>Forward</button>
+          <button
+            className="h-full cursor-pointer rounded border border-primary px-5 transition-all hover:bg-primary hover:text-white disabled:bg-white/10"
+            disabled={step === 0}
+            onClick={handleBack}
+          >
+            Back
+          </button>
+          <button
+            className="h-full cursor-pointer rounded bg-primary px-5 text-white"
+            onClick={handleNext}
+          >
+            {step === 1 ? 'Post' : 'Next'}
+          </button>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { secureApiPost } from '@/utils/constants'
+import { secureApiPost } from '@/utils/api'
 import { TextFieldInput, TextFieldRoot, TextFieldSlot } from '@radix-ui/themes'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
