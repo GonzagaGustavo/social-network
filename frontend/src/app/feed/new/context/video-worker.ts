@@ -1,21 +1,36 @@
 import { encoderConfig } from '@/utils/constants'
+import CanvasRenderer from '@/utils/video/canvasRenderer'
 import MP4Demuxer from '@/utils/video/mp4Demuxer'
 import VideoProcessor from '@/utils/video/videoProcessor'
+import WebMWriter from '@/utils/deps/webm-writer2'
+
+const webMWriterConfig = {
+  codec: 'VP9',
+  width: encoderConfig.width,
+  height: encoderConfig.height,
+  bitrate: encoderConfig.bitrate
+}
 
 const mp4Demuxer = new MP4Demuxer()
-const videoProcessor = new VideoProcessor({ mp4Demuxer })
+const webMWriter = new WebMWriter(webMWriterConfig)
+const videoProcessor = new VideoProcessor({ mp4Demuxer, webMWriter })
 
-onmessage = ({
+onmessage = async ({
   data
-}: MessageEvent<{ video: File | null; thumb: File | null }>) => {
-  if (!data.video || !data.thumb) {
-    self.postMessage({ error: 'Video or Thumb null' })
+}: MessageEvent<{ video: File | null; canvas: OffscreenCanvas }>) => {
+  if (!data.video) {
+    self.postMessage({
+      status: 'error',
+      error: 'Video or Thumb null or undefined'
+    })
     return
   }
 
-  videoProcessor.start({
+  const renderFrame = new CanvasRenderer(data.canvas).getRenderer()
+  await videoProcessor.start({
     video: data.video,
-    encoderConfig: encoderConfig,
+    renderFrame,
+    encoderConfig: encoderConfig as VideoEncoderConfig,
     sendMessage(message) {
       self.postMessage(message)
     }

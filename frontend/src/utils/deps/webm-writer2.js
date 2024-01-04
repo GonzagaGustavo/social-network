@@ -1,3 +1,5 @@
+'use client'
+
 // Note that these two fixes have been applied:
 //   https://github.com/w3c/webcodecs/issues/332#issuecomment-1077442192
 // Ctrl+F for "firstCueWritten" and "MAX_CLUSTER_DURATION_MSEC" to see the changes.
@@ -219,7 +221,7 @@
   }
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = ArrayBufferDataStream
+    // module.exports = ArrayBufferDataStream
   } else {
     self.ArrayBufferDataStream = ArrayBufferDataStream
   }
@@ -536,7 +538,7 @@ class AutoCloseWritableStream {
   }
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = BlobBuffer(require('fs'))
+    // module.exports = BlobBuffer(require('fs'))
   } else {
     self.BlobBuffer = BlobBuffer(null)
   }

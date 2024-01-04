@@ -1,8 +1,8 @@
 import { createFile, DataStream } from 'mp4box'
 
 interface RunParams {
-  onConfig: (config: object) => void
-  onChunk: (chunk: object) => any
+  onConfig: (config: VideoDecoderConfig) => void
+  onChunk: (chunk: EncodedVideoChunk) => any
 }
 
 type Copy = ArrayBufferLike & {
@@ -10,8 +10,8 @@ type Copy = ArrayBufferLike & {
 }
 
 export default class MP4Demuxer {
-  private onConfig: (config: object) => void
-  private onChunck: (chunk: object) => any
+  private onConfig: (config: VideoDecoderConfig) => void
+  private onChunck: (chunk: EncodedVideoChunk) => any
   private file: any
 
   async run(
@@ -46,11 +46,18 @@ export default class MP4Demuxer {
     throw new Error('avcC, hvcC, vpcC, or av1C box not found')
   }
 
-  private onSamples(
-    trackId: number,
-    ref: null | undefined,
-    samples: number[]
-  ) {}
+  private onSamples(trackId: number, ref: null | undefined, samples: any[]) {
+    for (const sample of samples) {
+      this.onChunck(
+        new EncodedVideoChunk({
+          type: sample.is_sync ? 'key' : 'delta',
+          timestamp: (1e6 * sample.cts) / sample.timescale,
+          duration: (1e6 * sample.duration) / sample.timescale,
+          data: sample.data
+        })
+      )
+    }
+  }
 
   private onReady(info: any) {
     const [track] = info.videoTracks

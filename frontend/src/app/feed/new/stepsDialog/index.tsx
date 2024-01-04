@@ -15,7 +15,6 @@ export default function StepsDialog() {
   function handleNext() {
     if (step === 1) {
       submit()
-      return
     }
     setStep(step + 1)
   }

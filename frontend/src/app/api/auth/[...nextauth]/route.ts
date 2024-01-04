@@ -85,14 +85,6 @@ export const authOptions: AuthOptions = {
         token.refreshToken = user.refreshToken
       }
 
-      const refreshToken =
-        (token.refreshToken as {
-          id: string
-          expiresIn: number
-          userId: number
-        }) || user.refreshToken
-
-      // console.log(refreshToken.expiresIn * 1000);
       // if (Date.now() < refreshToken.expiresIn * 1000) {
       //   return token;
       // }
@@ -101,6 +93,12 @@ export const authOptions: AuthOptions = {
       return token
     },
     async session({ session, token }) {
+      // const refreshToken = token.refreshToken as {
+      //   _id: string
+      //   _expiresIn: number
+      //   _userId: number
+      // }
+
       if (token.accessToken) {
         session.accessToken = token.accessToken as string
         session.user = token.user as {

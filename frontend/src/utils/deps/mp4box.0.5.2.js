@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * Bundled by jsDelivr using Rollup v2.79.1 and Terser v5.19.2.
  * Original file: /npm/mp4box@0.5.2/dist/mp4box.all.js

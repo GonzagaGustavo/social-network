@@ -1,3 +1,5 @@
+'use client'
+
 export default class Clock {
   ms: number | undefined
   intervalId: NodeJS.Timer | undefined
