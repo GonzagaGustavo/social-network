@@ -1,4 +1,4 @@
-import { encoderConfig } from '@/utils/constants'
+import { encoderConfig480 as encoderConfig } from '@/utils/constants'
 import CanvasRenderer from '@/utils/video/canvasRenderer'
 import MP4Demuxer from '@/utils/video/mp4Demuxer'
 import VideoProcessor from '@/utils/video/videoProcessor'
@@ -17,7 +17,10 @@ const videoProcessor = new VideoProcessor({ mp4Demuxer, webMWriter })
 
 onmessage = async ({
   data
-}: MessageEvent<{ video: File | null; canvas: OffscreenCanvas }>) => {
+}: MessageEvent<{
+  video: File | null
+  canvas: OffscreenCanvas | undefined
+}>) => {
   if (!data.video) {
     self.postMessage({
       status: 'error',
@@ -26,7 +29,9 @@ onmessage = async ({
     return
   }
 
-  const renderFrame = new CanvasRenderer(data.canvas).getRenderer()
+  const renderFrame = data.canvas
+    ? CanvasRenderer.getRenderer(data.canvas)
+    : undefined
   await videoProcessor.start({
     video: data.video,
     renderFrame,

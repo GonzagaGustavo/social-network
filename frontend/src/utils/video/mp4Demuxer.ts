@@ -33,8 +33,8 @@ export default class MP4Demuxer {
     return this.init(stream)
   }
 
-  private descriptions(track: any) {
-    const trak = this.file.getTrackById(track.id)
+  private description({ id }: { id: number }) {
+    const track = this.file.getTrackById(id)
     for (const entry of track.mdia.minf.stbl.stsd.entries) {
       const box = entry.avcC || entry.hvcC || entry.vpcC || entry.av1C
       if (box) {
@@ -62,8 +62,12 @@ export default class MP4Demuxer {
   private onReady(info: any) {
     const [track] = info.videoTracks
     this.onConfig({
-      track
-    })
+      codec: track.codec,
+      codedHeight: track.video.height,
+      codedWidth: track.video.width,
+      description: this.description(track),
+      durationSecs: info.duration / info.timescale
+    } as unknown as VideoEncoderConfig)
 
     this.file.setExtractionOptions(track.id)
     this.file.start()

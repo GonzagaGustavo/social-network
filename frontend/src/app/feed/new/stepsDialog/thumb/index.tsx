@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import useUpload from '../../context/upload'
 import { BsImages } from 'react-icons/bs'
 import PreviewThumb from './previewThumb'
+import clsx from 'clsx'
 
 const formatsSupported = [
   'image/jpeg',
@@ -14,7 +15,7 @@ const formatsSupported = [
   'application/pdf'
 ]
 
-export default function ThumbStep() {
+export default function ThumbStep({ hidden }: { hidden: boolean }) {
   const { thumb, setThumb } = useUpload()
   const inputRef = useRef<HTMLInputElement | null>(null)
   const containerDivRef = useRef<HTMLInputElement | null>(null)
@@ -62,7 +63,10 @@ export default function ThumbStep() {
   return (
     <div
       ref={containerDivRef}
-      className="flex h-full w-full flex-col items-center justify-around"
+      className={clsx(
+        'flex h-full w-full flex-col items-center justify-around',
+        hidden && 'hidden'
+      )}
     >
       <div className="h-[200px] w-auto">
         <PreviewThumb />

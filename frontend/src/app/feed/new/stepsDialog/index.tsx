@@ -2,7 +2,7 @@
 
 import clsx from 'clsx'
 import useUpload from '../context/upload'
-import getStep from './steps'
+import Steps from './steps'
 import { useState } from 'react'
 import { Button } from '@radix-ui/themes'
 import useForm from '../context/form'
@@ -33,7 +33,7 @@ export default function StepsDialog() {
     >
       <div className="flex h-[80%] w-[80%] flex-col justify-between overflow-hidden rounded-md">
         <div className="h-[calc(100%-70px)] w-full bg-white dark:bg-[rgb(25,25,25)]">
-          {getStep({ step })}
+          <Steps step={step} />
         </div>
 
         <div className="flex h-[70px] w-full justify-between bg-slate-200 px-6 py-3 dark:bg-slate-800">

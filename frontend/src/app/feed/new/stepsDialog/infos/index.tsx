@@ -1,10 +1,13 @@
+'use client'
+
 import { Checkbox, Flex, TextArea } from '@radix-ui/themes'
 import Input from './input'
 import useUpload from '../../context/upload'
 import useForm from '../../context/form'
 import { useEffect, useState } from 'react'
+import clsx from 'clsx'
 
-export default function InfosVideo() {
+export default function InfosVideo({ hidden }: { hidden: boolean }) {
   const { video } = useUpload()
   const { title, setTile, description, setDescription } = useForm()
   const [placeholder, setPlaceholder] = useState('')
@@ -31,7 +34,9 @@ export default function InfosVideo() {
   }
 
   return (
-    <div className="flex h-full w-full justify-center">
+    <div
+      className={clsx('flex h-full w-full justify-center', hidden && 'hidden')}
+    >
       <div className="w-[80%] py-7">
         <Input
           label="Title"

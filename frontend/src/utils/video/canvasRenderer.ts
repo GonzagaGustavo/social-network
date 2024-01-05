@@ -1,33 +1,29 @@
+let _canvas: OffscreenCanvas
+let _ctx: OffscreenCanvasRenderingContext2D | null
 export default class CanvasRenderer {
-  private canvas: OffscreenCanvas
-  private ctx: OffscreenCanvasRenderingContext2D | null
-
-  constructor(canvas: OffscreenCanvas) {
-    this.canvas = canvas
-    this.ctx = canvas.getContext('2d')
-  }
-
-  draw(frame: VideoFrame) {
+  static draw(frame: VideoFrame) {
     const { displayHeight, displayWidth } = frame
 
-    this.canvas.width = displayWidth
-    this.canvas.height = displayHeight
-    this.ctx?.drawImage(frame, 0, 0, displayWidth, displayHeight)
+    _canvas.width = displayWidth
+    _canvas.height = displayHeight
+    _ctx?.drawImage(frame, 0, 0, displayWidth, displayHeight)
     frame.close()
   }
 
-  getRenderer() {
+  static getRenderer(canvas: OffscreenCanvas) {
     const renderer = this
     let pendingFrame: VideoFrame | null = null
+    _canvas = canvas
+    _ctx = canvas.getContext('2d')
 
     return (frame: VideoFrame) => {
-      const rendererAnimationFrame = () => {
+      const renderAnimationFrame = () => {
         renderer.draw(pendingFrame!)
         pendingFrame = null
       }
 
       if (!pendingFrame) {
-        requestAnimationFrame(rendererAnimationFrame)
+        requestAnimationFrame(renderAnimationFrame)
       } else {
         pendingFrame.close()
       }

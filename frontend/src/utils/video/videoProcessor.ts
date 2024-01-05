@@ -43,6 +43,7 @@ export default class VideoProcessor {
             const { supported } = await VideoDecoder.isConfigSupported(config)
             if (!supported) {
               console.error('VideoDecoderConfig not supported', config)
+              controller.error('VideoDecoderConfig not supported')
               controller.close()
               return
             }
@@ -56,7 +57,7 @@ export default class VideoProcessor {
     })
   }
 
-  encode144p(encoderConfig: VideoEncoderConfig) {
+  encode(encoderConfig: VideoEncoderConfig) {
     let _encoder: VideoEncoder
     const readable = new ReadableStream({
       start: async (controller) => {
@@ -64,7 +65,7 @@ export default class VideoProcessor {
           await VideoEncoder.isConfigSupported(encoderConfig)
 
         if (!supported) {
-          const message = 'VideoEncoderConfig 144p not supported'
+          const message = 'VideoEncoderConfig not supported'
           console.error(message, encoderConfig)
           controller.error(message)
           return
@@ -145,6 +146,69 @@ export default class VideoProcessor {
     }
   }
 
+  private async process(
+    decodedVideo: ReadableStream,
+    quality: string,
+    config: VideoEncoderConfig,
+    renderFrame: ((frame: VideoFrame) => void) | undefined,
+    sendMessage: (message: any) => void
+  ) {
+    const encoded = decodedVideo.pipeThrough(this.encode(config))
+
+    if (renderFrame) {
+      await encoded
+        .pipeThrough(this.renderDecodedFramesAndGetEncodedChunks(renderFrame))
+        .pipeThrough(this.transformIntoWebM())
+        .pipeThrough(
+          new TransformStream<{ data: any; position: number }>({
+            transform: ({ data, position }, controller) => {
+              this.buffers.push(data)
+              controller.enqueue(data)
+            },
+            flush: () => {
+              sendMessage({
+                status: 'done',
+                quality,
+                buffers: this.buffers
+              })
+            }
+          })
+        )
+        .pipeTo(
+          new WritableStream({
+            write(frame: VideoFrame) {
+              // renderFrame(frame)
+            }
+          })
+        )
+    } else {
+      await encoded
+        .pipeThrough(this.transformIntoWebM())
+        .pipeThrough(
+          new TransformStream<{ data: any; position: number }>({
+            transform: ({ data, position }, controller) => {
+              this.buffers.push(data)
+              controller.enqueue(data)
+            },
+            flush: () => {
+              sendMessage({
+                status: 'done',
+                quality,
+                buffers: this.buffers
+              })
+            }
+          })
+        )
+        .pipeTo(
+          new WritableStream({
+            write(frame: VideoFrame) {
+              // renderFrame(frame)
+            }
+          })
+        )
+    }
+  }
+
   async start({
     video,
     renderFrame,
@@ -153,36 +217,20 @@ export default class VideoProcessor {
   }: {
     video: File
     encoderConfig: VideoEncoderConfig
-    renderFrame: (frame: VideoFrame) => void
+    renderFrame: ((frame: VideoFrame) => void) | undefined
     sendMessage(message: any): void
   }) {
     const stream = video.stream()
     const fileName = video.name.split('/').pop()!.replace('.mp4', '')
 
-    await this.mp4Decoder(stream)
-      .pipeThrough(this.encode144p(encoderConfig))
-      .pipeThrough(this.renderDecodedFramesAndGetEncodedChunks(renderFrame))
-      .pipeThrough(this.transformIntoWebM())
-      .pipeThrough(
-        new TransformStream<{ data: any; position: number }>({
-          transform: ({ data, position }, controller) => {
-            this.buffers.push(data)
-            controller.enqueue(data)
-          },
-          flush: () => {
-            sendMessage({
-              status: 'done',
-              buffers: this.buffers
-            })
-          }
-        })
-      )
-      .pipeTo(
-        new WritableStream({
-          write(frame: VideoFrame) {
-            // renderFrame(frame)
-          }
-        })
-      )
+    const decodedVideo = this.mp4Decoder(stream)
+
+    await this.process(
+      decodedVideo,
+      encoderConfig.height.toString(),
+      encoderConfig,
+      renderFrame,
+      sendMessage
+    )
   }
 }
