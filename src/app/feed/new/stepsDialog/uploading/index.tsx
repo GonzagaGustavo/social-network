@@ -1,16 +1,18 @@
-'use client'
-
 import clsx from 'clsx'
-import useForm from '../../context/form'
 
 export default function Uploading({ hidden }: { hidden: boolean }) {
-  const { canvasRef } = useForm()
-
   return (
     <div
-      className={clsx('flex h-full w-full justify-center', hidden && 'hidden')}
+      className={clsx(
+        'flex h-full w-full items-center justify-center',
+        hidden && 'hidden'
+      )}
     >
-      <canvas ref={canvasRef} className="aspect-video w-[80%]"></canvas>
+      <div className="flex gap-2">
+        <div className="h-5 w-5 animate-pulse rounded-full bg-primary"></div>
+        <div className="h-5 w-5 animate-pulse rounded-full bg-primary"></div>
+        <div className="h-5 w-5 animate-pulse rounded-full bg-primary"></div>
+      </div>
     </div>
   )
 }

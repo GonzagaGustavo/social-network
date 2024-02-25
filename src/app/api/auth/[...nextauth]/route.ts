@@ -66,7 +66,6 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     async jwt({ user: modifiedUser, token, session }) {
-      console.log('json web token')
       const user: ResponseUser = modifiedUser as any
 
       if (user) {
