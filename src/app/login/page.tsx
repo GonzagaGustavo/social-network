@@ -23,7 +23,6 @@ export default function LoginPage() {
             width={200}
             height={200}
           />
-          <h1 className={antonio.className}>SociNex</h1>
         </div>
 
         <div className={styles.login}>
@@ -49,7 +48,11 @@ export default function LoginPage() {
               <Link href="/register">Crie uma!</Link>
             </p>
             <div className={styles.btnWrapper}>
-              <button type="submit" id={styles.btnSubmit}>
+              <button
+                type="submit"
+                id={styles.btnSubmit}
+                className="text-white"
+              >
                 Entrar
               </button>
             </div>
